@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Reviewer
 {
@@ -31,11 +32,14 @@ namespace Reviewer
 
 		public bool bInit { get; private set; } = false;
 
+		public Form			m_refMainForm = null;
 		public DateTime		m_stToday;
 		public List<int>	m_liDate = null;
 
-		private ReviewMng()
+		public void Init(Form a_refForm)
 		{
+			m_refMainForm = a_refForm;
+
 			// 1. 컨피그 파일이 없으면 만듬
 			// 2. 컨피그 파일에 파일 경로가 없다면 저장해야됨
 			// 3. 최초 경로 설정 창이 떠야함
@@ -57,6 +61,26 @@ namespace Reviewer
 			};
 			
 			bInit = true;
+		}
+
+		public void ChangeDate(List<int> m_refAllDay)
+		{
+			string s = "";
+
+			m_liDate.Clear();
+			m_liDate.AddRange(m_refAllDay);
+
+			for (int i = 0; i < m_liDate.Count; ++i)
+			{
+				s += m_liDate[i];
+
+				if (i < (m_liDate.Count - 1))
+				{
+					s += ", ";
+				}
+			}
+			
+			MessageBox.Show(s, "OK");
 		}
 	}
 }

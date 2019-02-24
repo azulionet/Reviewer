@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Reviewer.Global;
+using System;
 using System.Windows.Forms;
-
-using Reviewer.Global;
 
 namespace Reviewer
 {
@@ -13,13 +12,24 @@ namespace Reviewer
 			Wait,
 		}
 
+		Form m_DateForm = null;
 		eState m_eState = eState.Wait;
+
+		public bool bStandByState
+		{
+			get
+			{
+				return (ReviewMng.Ins.bInit == true) &&
+						(m_eState == eState.StandBy);
+			}
+		}
 
 		public ReviewerForm()
 		{
 			InitializeComponent();
 
 			// 프로그램 초기화
+			ReviewMng.Ins.Init(this);
 
 			// UI 초기화
 			m_uiTextFolder.Text = Properties.Resources.sFolderDefaultWord;
@@ -32,15 +42,6 @@ namespace Reviewer
 		{
 			// 프로그램 정리
 			Global.Timer.Destroy();
-		}
-
-		public bool bStandByState
-		{
-			get
-			{
-				return (ReviewMng.Ins.bInit == true) &&
-						(m_eState == eState.StandBy);
-			}
 		}
 
 		// 이벤트 처리기
@@ -58,7 +59,7 @@ namespace Reviewer
 				{
 					sPath = fbd.SelectedPath;
 				}
-				else if( result == DialogResult.Cancel )
+				else if (result == DialogResult.Cancel)
 				{
 					return;
 				}
@@ -74,7 +75,7 @@ namespace Reviewer
 
 				return;
 			}
-			
+
 			m_uiTextFolder.Text = sPath;
 
 			// 데일리 폴더들이 있다면 오른쪽에 표기 & 데이터 수집
@@ -98,15 +99,19 @@ namespace Reviewer
 		private void OnCreateFolderButton_Click(object sender, EventArgs e)
 		{
 			if (bStandByState == false) { return; }
-			
+
 		}
 
 		private void OnDateSettingButton_Click(object sender, EventArgs e)
 		{
 			if (bStandByState == false) { return; }
 
-			var form = new ReviewDateForm();
-			form.ShowDialog();
+			if (m_DateForm == null)
+			{
+				m_DateForm = new ReviewDateForm();
+			}
+
+			m_DateForm.ShowDialog();
 		}
 	}
 }

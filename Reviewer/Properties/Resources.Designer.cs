@@ -70,6 +70,24 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   문자열에 중복된 값이 있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sDateStringDuplicated {
+            get {
+                return ResourceManager.GetString("sDateStringDuplicated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   문자열을 형식에 맞게 다시 입력해 주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sDateStringError {
+            get {
+                return ResourceManager.GetString("sDateStringError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sDefaultState {
