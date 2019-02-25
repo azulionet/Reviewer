@@ -36,7 +36,6 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.m_uiTextFolder = new System.Windows.Forms.TextBox();
 			this.m_uiTextState = new System.Windows.Forms.Label();
-			this.m_uiCreateFolderButton = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
@@ -48,6 +47,7 @@
 			this.m_uiReviewList.Name = "m_uiReviewList";
 			this.m_uiReviewList.Size = new System.Drawing.Size(287, 556);
 			this.m_uiReviewList.TabIndex = 0;
+			this.m_uiReviewList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnReviewList_ItemCheck);
 			// 
 			// button1
 			// 
@@ -90,7 +90,7 @@
 			// 
 			this.button3.Location = new System.Drawing.Point(18, 11);
 			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(169, 35);
+			this.button3.Size = new System.Drawing.Size(287, 35);
 			this.button3.TabIndex = 6;
 			this.button3.Text = "폴더 설정";
 			this.button3.UseVisualStyleBackColor = true;
@@ -113,17 +113,6 @@
 			this.m_uiTextState.TabIndex = 8;
 			this.m_uiTextState.Text = "---";
 			// 
-			// m_uiCreateFolderButton
-			// 
-			this.m_uiCreateFolderButton.Enabled = false;
-			this.m_uiCreateFolderButton.Location = new System.Drawing.Point(193, 11);
-			this.m_uiCreateFolderButton.Name = "m_uiCreateFolderButton";
-			this.m_uiCreateFolderButton.Size = new System.Drawing.Size(112, 34);
-			this.m_uiCreateFolderButton.TabIndex = 9;
-			this.m_uiCreateFolderButton.Text = "폴더 세팅";
-			this.m_uiCreateFolderButton.UseVisualStyleBackColor = true;
-			this.m_uiCreateFolderButton.Click += new System.EventHandler(this.OnCreateFolderButton_Click);
-			// 
 			// button4
 			// 
 			this.button4.Location = new System.Drawing.Point(333, 175);
@@ -141,7 +130,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1160, 661);
 			this.Controls.Add(this.button4);
-			this.Controls.Add(this.m_uiCreateFolderButton);
 			this.Controls.Add(this.m_uiTextState);
 			this.Controls.Add(this.m_uiTextFolder);
 			this.Controls.Add(this.button3);
@@ -168,7 +156,6 @@
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.TextBox m_uiTextFolder;
 		private System.Windows.Forms.Label m_uiTextState;
-		private System.Windows.Forms.Button m_uiCreateFolderButton;
 		private System.Windows.Forms.Button button4;
 	}
 }

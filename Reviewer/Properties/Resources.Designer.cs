@@ -61,6 +61,15 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   일 후과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sAfterDateFolderAdd {
+            get {
+                return ResourceManager.GetString("sAfterDateFolderAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   CANCEL과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sCANCEL {
@@ -111,6 +120,15 @@ namespace Reviewer.Properties {
         public static string sERROR_WRONG_PATH {
             get {
                 return ResourceManager.GetString("sERROR_WRONG_PATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   일과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sFixedDateForderAdd {
+            get {
+                return ResourceManager.GetString("sFixedDateForderAdd", resourceCulture);
             }
         }
         

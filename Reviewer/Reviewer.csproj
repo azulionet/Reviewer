@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="File.cs" />
+    <Compile Include="Folder.cs" />
     <Compile Include="Global\Define.cs" />
     <Compile Include="Global\ExtensionMethod.cs" />
     <Compile Include="ReviewDateForm.cs">

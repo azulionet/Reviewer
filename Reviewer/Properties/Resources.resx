@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="sAfterDateFolderAdd" xml:space="preserve">
+    <value>일 후</value>
+    <comment>~일 후, 날짜 폴더 이름</comment>
+  </data>
   <data name="sCANCEL" xml:space="preserve">
     <value>CANCEL</value>
     <comment>UI 버튼 Cancel</comment>
@@ -140,6 +144,10 @@
   <data name="sERROR_WRONG_PATH" xml:space="preserve">
     <value>경로 설정이 잘 못 되었습니다.</value>
     <comment>에러문구 ㅇㅇ</comment>
+  </data>
+  <data name="sFixedDateForderAdd" xml:space="preserve">
+    <value>일</value>
+    <comment>고정 날짜 폴더 이름</comment>
   </data>
   <data name="sFolderDefaultWord" xml:space="preserve">
     <value>폴더를 설정해 주세요.</value>

@@ -23,6 +23,15 @@ namespace Reviewer.Global
 
 		AfterDateGap = 10000, // 고정날짜는 1,2,3... ~일 후 복습은 10003, 10007, 10015, 10030...
 	}
+
+	// 날짜 폴더를 제외한 특수폴더 : 폴더 날짜를 양의 정수형으로 하기 때문에 이 폴더는 음의 정수를 취함
+	public enum eFolder
+	{
+		// Finish, Start 사이에 추가 요망 ( for문 돌리기 쉽게 하기 위함 )
+		Finish	= -1,			
+		Log		= -2,
+		Start	= -3,
+	}
 	
 	public static partial class Timer
 	{
@@ -69,7 +78,7 @@ namespace Reviewer.Global
 			s.Append("] : ");
 			s.Append(a_sLog);
 
-			File.Wright(Path.FileName(Path.eFile.Log), s.ToString());
+			File.Wright(Path.FileName_inMyDocument(Path.eFile.Log), s.ToString());
 
 			return s.ToString();
 		}
@@ -90,7 +99,7 @@ namespace Reviewer.Global
 	{
 		public static ConfigData GetConfig()
 		{
-			string sFileName = Path.FileName(Path.eFile.Config);
+			string sFileName = Path.FileName_inMyDocument(Path.eFile.Config);
 
 			if (System.IO.File.Exists(sFileName) == false)
 			{
@@ -111,7 +120,7 @@ namespace Reviewer.Global
 		{
 			string s = LitJson.JsonMapper.ToJson(a_refData);
 
-			File.Wright(Path.FileName(Path.eFile.Config), s, File.eWrite.OverWrite);
+			File.Wright(Path.FileName_inMyDocument(Path.eFile.Config), s, File.eWrite.OverWrite);
 		}
 	}
 
@@ -127,7 +136,7 @@ namespace Reviewer.Global
 
 		// 사용 폴더
 		public const string sRootFolder		= "Reviewer\\";
-		public const string sStrt			= "Start\\";
+		public const string sStart			= "Start\\";
 		public const string sFinish			= "Finish\\";
 		public const string sLog			= "Log\\";
 
@@ -156,7 +165,20 @@ namespace Reviewer.Global
 			}
 		}
 
-		public static string FileName(eFile a_eFile)
+		public static string FolderName(eFolder a_eFolder)
+		{
+			switch (a_eFolder)
+			{
+				case eFolder.Finish:	{ return sFinish; }
+				case eFolder.Log:		{ return sLog; }
+				case eFolder.Start:		{ return sStart; }
+			}
+
+			Define.LogError("arg error");
+			return string.Empty;
+		}
+
+		public static string FileName_inMyDocument(eFile a_eFile)
 		{
 			string sTemp = string.Empty;
 
@@ -164,6 +186,8 @@ namespace Reviewer.Global
 			{
 				case eFile.Config:	{ sTemp = sConfigFile; } break;
 				case eFile.Log:		{ sTemp = sLogFile; } break;
+
+				default:			{ Define.LogError("arg error"); return string.Empty; }
 			}
 
 			return System.IO.Path.Combine(sSavePath, sTemp);
@@ -269,12 +293,17 @@ namespace Reviewer.Global
 
 			public TimerEvent(int a_nID, uint a_unMicroSec, System.Action a_fpCallback, bool a_bRepeat)
 			{
-				m_nID			= a_nID;
-				m_unSettingTime	= a_unMicroSec;
-				m_unNowTime		= a_unMicroSec;
+				SetData(a_nID, a_unMicroSec, a_fpCallback, a_bRepeat);
+			}
 
-				m_fpCallback	= a_fpCallback;
-				m_bRepeat		= a_bRepeat;
+			public void SetData(int a_nID, uint a_unMicroSec, System.Action a_fpCallback, bool a_bRepeat)
+			{
+				m_nID = a_nID;
+				m_unSettingTime = a_unMicroSec;
+				m_unNowTime = a_unMicroSec;
+
+				m_fpCallback = a_fpCallback;
+				m_bRepeat = a_bRepeat;
 			}
 		}
 
@@ -296,6 +325,15 @@ namespace Reviewer.Global
 
 		static void Add(int a_nID, uint a_unMicroSec, System.Action a_fpCallback, bool a_bRepeat = false)
 		{
+			foreach(var val in m_liTimerEvent)
+			{
+				if( val.m_nID == a_nID ) // 동일 아이디가 있다면 덮어쓰기
+				{
+					val.SetData(a_nID, a_unMicroSec, a_fpCallback, a_bRepeat);
+					return;
+				}
+			}
+			
 			if (m_Timer == null)
 			{
 				m_Timer = new System.Windows.Forms.Timer();

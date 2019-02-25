@@ -28,15 +28,22 @@ namespace Reviewer
 		{
 			InitializeComponent();
 
-			// 프로그램 초기화
-			ReviewMng.Ins.Init(this);
-			string path = Config.sFolderPath;
-
-			// UI 초기화
-			m_uiTextFolder.Text = string.IsNullOrEmpty(path) ? Properties.Resources.sFolderDefaultWord : path;
 			m_uiTextState.Text = Properties.Resources.sWaitState;
 
+			// 프로그램 초기화
+			ReviewMng.Ins.Init(this);
+
+			string path = Config.sFolderPath;
+			m_uiTextFolder.Text = string.IsNullOrEmpty(path) ? Properties.Resources.sFolderDefaultWord : path;
+			
+			// 상태 ㅇㅋ
 			m_eState = eState.StandBy;
+			m_uiTextState.Text = Properties.Resources.sDefaultState;
+			
+			// m_uiReviewList.Items.Add("1");
+			// m_uiReviewList.Items.Add("2");
+			// m_uiReviewList.Items.Add("3");
+			// m_uiReviewList.Items.Add("-----------------------", CheckState.Indeterminate);
 		}
 
 		~ReviewerForm()
@@ -52,13 +59,13 @@ namespace Reviewer
 
 			string sPath = string.Empty;
 
-			using (var fbd = new FolderBrowserDialog())
+			using (var dialog = new FolderBrowserDialog())
 			{
-				DialogResult result = fbd.ShowDialog();
+				DialogResult result = dialog.ShowDialog();
 
-				if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+				if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(dialog.SelectedPath))
 				{
-					sPath = fbd.SelectedPath;
+					sPath = dialog.SelectedPath;
 				}
 				else if (result == DialogResult.Cancel)
 				{
@@ -83,8 +90,6 @@ namespace Reviewer
 
 			// 데일리 폴더들이 있다면 오른쪽에 표기 & 데이터 수집
 			// 없으면 냅도야지
-
-			m_uiCreateFolderButton.Enabled = true;
 		}
 
 		private void OnReviewButton_Click(object sender, EventArgs e)
@@ -94,12 +99,6 @@ namespace Reviewer
 		}
 
 		private void OnDateApplyButton_Click(object sender, EventArgs e)
-		{
-			if (bStandByState == false) { return; }
-
-		}
-
-		private void OnCreateFolderButton_Click(object sender, EventArgs e)
 		{
 			if (bStandByState == false) { return; }
 
@@ -115,6 +114,14 @@ namespace Reviewer
 			}
 
 			m_DateForm.ShowDialog();
+		}
+
+		private void OnReviewList_ItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			if (e.CurrentValue == CheckState.Indeterminate) // 구분선은 클릭되지 않도록 수정
+			{
+				e.NewValue = CheckState.Indeterminate;
+			}
 		}
 	}
 }
