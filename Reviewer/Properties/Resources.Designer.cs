@@ -61,7 +61,7 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
-        ///   일 후과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   {0}일 후과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sAfterDateFolderAdd {
             get {
@@ -124,7 +124,7 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
-        ///   일과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   _{0}일과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sFixedDateForderAdd {
             get {
@@ -138,6 +138,33 @@ namespace Reviewer.Properties {
         public static string sFolderDefaultWord {
             get {
                 return ResourceManager.GetString("sFolderDefaultWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Finish과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sFolderName_Finish {
+            get {
+                return ResourceManager.GetString("sFolderName_Finish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Log과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sFolderName_Log {
+            get {
+                return ResourceManager.GetString("sFolderName_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sFolderName_Start {
+            get {
+                return ResourceManager.GetString("sFolderName_Start", resourceCulture);
             }
         }
         

@@ -31,11 +31,11 @@ namespace Reviewer
 			{
 				if( val < (int)Global.eDate.AfterDateGap )
 				{
-					m_liFixedDay.Add(val);
+					m_liFixedDay.Add(val - (int)eDate.FixedDateGap);
 				}
 				else
 				{
-					m_liAfterDay.Add(val - (int)Global.eDate.AfterDateGap);
+					m_liAfterDay.Add(val - (int)eDate.AfterDateGap);
 				}
 
 				m_liAllDay.Add(val);
@@ -84,7 +84,7 @@ namespace Reviewer
 				{
 					if (string.IsNullOrWhiteSpace(s) == true) { continue; }
 
-					m_liFixedDay.Add( int.Parse(s) );
+					m_liFixedDay.Add( int.Parse(s) + (int)eDate.FixedDateGap );
 				}
 
 				if( m_liFixedDay.HasDuplicatedValue() == true )
@@ -103,7 +103,7 @@ namespace Reviewer
 				{
 					if( string.IsNullOrWhiteSpace(s) == true ) { continue; }
 
-					m_liAfterDay.Add(int.Parse(s) + (int)Global.eDate.AfterDateGap);
+					m_liAfterDay.Add(int.Parse(s) + (int)eDate.AfterDateGap);
 				}
 
 				m_liAllDay.AddRange(m_liAfterDay);

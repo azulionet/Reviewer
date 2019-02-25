@@ -20,19 +20,31 @@ namespace Reviewer.Global
 	{
 		FixedDate,	// 1,2,3일
 		AfterDate,	// 3일 후, 7일 후, 15일 후, 30일 후
-
-		AfterDateGap = 10000, // 고정날짜는 1,2,3... ~일 후 복습은 10003, 10007, 10015, 10030...
+		
+		FixedDateGap = 10000, // 고정날짜가 컨피그에 저장될 때, 1,2,3일 => 10001, 10002, 10003
+		AfterDateGap = 20000, // ~일 후 날짜 컨피그에 저장될 때, 3일후, 7일후, 15일후 => 20003, 20007, 20015
 	}
 
-	// 날짜 폴더를 제외한 특수폴더 : 폴더 날짜를 양의 정수형으로 하기 때문에 이 폴더는 음의 정수를 취함
+	// 날짜 폴더를 제외한 특수폴더
 	public enum eFolder
 	{
-		// Finish, Start 사이에 추가 요망 ( for문 돌리기 쉽게 하기 위함 )
-		Finish	= -1,			
-		Log		= -2,
-		Start	= -3,
+		// Start, Finish 사이에 enum 추가요망( for 문 돌리기 용이하도록 )
+		Start,
+		Log,
+		Finish,
+
+		CountMax,
 	}
-	
+
+	// 일반 복습용 파일을 제외한 특수 파일
+	public enum eFile
+	{
+		Review,
+		NoReviewed,
+		Finished,
+		Log,
+	}
+
 	public static partial class Timer
 	{
 		public static void Start(this eTimerEvent a_eType, uint a_nMicroSec, System.Action a_fpCallback)
@@ -69,7 +81,7 @@ namespace Reviewer.Global
 
 			if (a_eLogType == eLog.Error)
 			{
-				s.Append("Error][");
+				s.Append("[Error][");
 			}
 
 			s.Append(System.IO.Path.GetFileName(a_sFilePath));
@@ -78,11 +90,12 @@ namespace Reviewer.Global
 			s.Append("] : ");
 			s.Append(a_sLog);
 
-			File.Wright(Path.FileName_inMyDocument(Path.eFile.Log), s.ToString());
+			File.Wright(Path.FileName_inMyDocument(Path.eDocumentFile.Log), s.ToString());
 
 			return s.ToString();
 		}
 
+		// assert도 겸함
 		public static string LogError(string a_sLog,
 							   string a_sFileName = Path.sLogFile,
 								[CallerFilePath] string a_sFilePath = "",
@@ -99,7 +112,7 @@ namespace Reviewer.Global
 	{
 		public static ConfigData GetConfig()
 		{
-			string sFileName = Path.FileName_inMyDocument(Path.eFile.Config);
+			string sFileName = Path.FileName_inMyDocument(Path.eDocumentFile.Config);
 
 			if (System.IO.File.Exists(sFileName) == false)
 			{
@@ -120,13 +133,13 @@ namespace Reviewer.Global
 		{
 			string s = LitJson.JsonMapper.ToJson(a_refData);
 
-			File.Wright(Path.FileName_inMyDocument(Path.eFile.Config), s, File.eWrite.OverWrite);
+			File.Wright(Path.FileName_inMyDocument(Path.eDocumentFile.Config), s, File.eWrite.OverWrite);
 		}
 	}
 
 	public static class Path
 	{
-		public enum eFile
+		public enum eDocumentFile
 		{
 			Config,
 			Log,
@@ -136,9 +149,6 @@ namespace Reviewer.Global
 
 		// 사용 폴더
 		public const string sRootFolder		= "Reviewer\\";
-		public const string sStart			= "Start\\";
-		public const string sFinish			= "Finish\\";
-		public const string sLog			= "Log\\";
 
 		// 사용 파일
 		public const string sConfigFile		= "Config.json";
@@ -155,39 +165,39 @@ namespace Reviewer.Global
 			{
 				System.IO.Directory.CreateDirectory(sSavePath);
 			}
-
-			// 컨피그파일 생성
-			string sConfig = System.IO.Path.Combine(sSavePath, sConfigFile);
-
-			if( System.IO.File.Exists(sConfig) == false )
-			{
-				System.IO.File.Create(sConfig);
-			}
 		}
 
 		public static string FolderName(eFolder a_eFolder)
 		{
+			string sName = string.Empty;
+
 			switch (a_eFolder)
 			{
-				case eFolder.Finish:	{ return sFinish; }
-				case eFolder.Log:		{ return sLog; }
-				case eFolder.Start:		{ return sStart; }
+				case eFolder.Start:		{ return sName = Properties.Resources.sFolderName_Start; }
+				case eFolder.Log:		{ return sName = Properties.Resources.sFolderName_Log; }
+				case eFolder.Finish:	{ return sName = Properties.Resources.sFolderName_Finish; }
 			}
 
-			Define.LogError("arg error");
+			if( string.IsNullOrEmpty(sName) == true )
+			{
+				Define.LogError("arg error");
+				return string.Empty;
+			}
+
+			sName += "\\";			
 			return string.Empty;
 		}
 
-		public static string FileName_inMyDocument(eFile a_eFile)
+		public static string FileName_inMyDocument(eDocumentFile a_eFile)
 		{
 			string sTemp = string.Empty;
 
 			switch (a_eFile)
 			{
-				case eFile.Config:	{ sTemp = sConfigFile; } break;
-				case eFile.Log:		{ sTemp = sLogFile; } break;
+				case eDocumentFile.Config:	{ sTemp = sConfigFile; } break;
+				case eDocumentFile.Log:		{ sTemp = sLogFile; } break;
 
-				default:			{ Define.LogError("arg error"); return string.Empty; }
+				default:					{ Define.LogError("arg error"); return string.Empty; }
 			}
 
 			return System.IO.Path.Combine(sSavePath, sTemp);
@@ -399,8 +409,18 @@ namespace Reviewer.Global
 
 		public static void Init()
 		{
-			data = JsonHelper.GetConfig();
+			// 컨피그파일 없다면 생성
+			string sConfig = System.IO.Path.Combine(Path.sSavePath, Path.sConfigFile);
 
+			if (System.IO.File.Exists(sConfig) == false)
+			{
+				System.IO.File.Create(sConfig);
+			}
+			else
+			{
+				data = JsonHelper.GetConfig();
+			}
+			
 			if( data == null )
 			{
 				data = new ConfigData();
@@ -418,8 +438,12 @@ namespace Reviewer.Global
 
 			data.liDate = new List<int>()
 			{
-				1,2,3,
+				// 1일, 2일, 3일
+				 1 + (int)Global.eDate.FixedDateGap,
+				 2 + (int)Global.eDate.FixedDateGap,
+				 3 + (int)Global.eDate.FixedDateGap,
 
+				// 3일후, 7일후, 15일후, 30일후
 				 3 + (int)Global.eDate.AfterDateGap,
 				 7 + (int)Global.eDate.AfterDateGap,
 				15 + (int)Global.eDate.AfterDateGap,

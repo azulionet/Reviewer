@@ -1,21 +1,23 @@
-﻿namespace Reviewer
+﻿using Reviewer.Global;
+
+namespace Reviewer
 {
 	class File
 	{
-		Folder m_refParent = null;
+		string	m_sName;
+		Folder	m_refParent;
+		eFile	m_eFileType;
+
+		File(string a_sFileName, Folder a_refParent, eFile a_eType = eFile.Review)
+		{
+			m_sName		= a_sFileName;
+			m_refParent	= a_refParent;
+			m_eFileType	= a_eType;
+		}
+
+
+
+
+
 	}
-
-	class ReviewFile : File
-	{
-	}
-
-	class SpecialFile : File
-	{
-
-	}
-
-
-
-
-	
 }

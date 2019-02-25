@@ -33,7 +33,8 @@ namespace Reviewer
 		public Form					m_refMainForm = null;
 
 		public List<DateFolder>		m_liDateFolder = new List<DateFolder>();
-		public List<SpecialFolder>	m_liSpecialFolder = new List<SpecialFolder>();
+
+		public SpecialFolder[]		m_arSpecialFolder = new SpecialFolder[(int)eFolder.CountMax];
 
 		public void Init(Form a_refForm)
 		{
@@ -49,6 +50,8 @@ namespace Reviewer
 
 		void ResearchFoldersAndFiles()
 		{
+			if( Config.bIsSetting == false ) { return; }
+
 			var sRoot = Config.sFolderPath;
 			var liDate = Config.liDate;
 			
@@ -57,9 +60,9 @@ namespace Reviewer
 				m_liDateFolder.Add(new DateFolder(val));
 			}
 
-			for( int i=(int)eFolder.Start; i<=(int)eFolder.Finish; ++i ) // 폴더를 전부 만들어야 해서 <=
+			for( int i=0; i<(int)eFolder.CountMax; ++i ) // 폴더를 전부 만들어야 해서 <=
 			{
-				m_liSpecialFolder.Add(new SpecialFolder(i));
+				m_arSpecialFolder[i] = new SpecialFolder(i);
 			}			
 		}
 		

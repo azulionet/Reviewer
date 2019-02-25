@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="sAfterDateFolderAdd" xml:space="preserve">
-    <value>일 후</value>
+    <value>{0}일 후</value>
     <comment>~일 후, 날짜 폴더 이름</comment>
   </data>
   <data name="sCANCEL" xml:space="preserve">
@@ -146,12 +146,24 @@
     <comment>에러문구 ㅇㅇ</comment>
   </data>
   <data name="sFixedDateForderAdd" xml:space="preserve">
-    <value>일</value>
+    <value>_{0}일</value>
     <comment>고정 날짜 폴더 이름</comment>
   </data>
   <data name="sFolderDefaultWord" xml:space="preserve">
     <value>폴더를 설정해 주세요.</value>
     <comment>폴더</comment>
+  </data>
+  <data name="sFolderName_Finish" xml:space="preserve">
+    <value>Finish</value>
+    <comment>폴더명</comment>
+  </data>
+  <data name="sFolderName_Log" xml:space="preserve">
+    <value>Log</value>
+    <comment>폴더명</comment>
+  </data>
+  <data name="sFolderName_Start" xml:space="preserve">
+    <value>Start</value>
+    <comment>폴더명</comment>
   </data>
   <data name="sOK" xml:space="preserve">
     <value>OK</value>

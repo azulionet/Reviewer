@@ -15,6 +15,9 @@ namespace Reviewer
 		public string		m_sName_withFullPath;
 		public List<string>	m_liChild = new List<string>();
 
+		public virtual bool	bIsStartFolder => false;
+		public virtual bool bIsFinishFolder => false;
+
 		public string sFolderName
 		{
 			get
@@ -55,20 +58,21 @@ namespace Reviewer
 		
 		public override void SetName()
 		{
-			string sAdd = string.Empty;
+			string sStringFormat = string.Empty;
 			int nName = m_nData;
 
 			if (nName < (int)Global.eDate.AfterDateGap)
 			{
-				sAdd = Properties.Resources.sFixedDateForderAdd;
+				sStringFormat = Properties.Resources.sFixedDateForderAdd;
+				nName -= (int)Global.eDate.FixedDateGap;
 			}
 			else
 			{
-				sAdd = Properties.Resources.sAfterDateFolderAdd;
+				sStringFormat = Properties.Resources.sAfterDateFolderAdd;
 				nName -= (int)Global.eDate.AfterDateGap;
 			}
 
-			m_sName = string.Format("{0}{1}", nName, sAdd); // 0일, 1일, 1일 후 등이 됨 
+			m_sName = string.Format(sStringFormat, nName); // _{0}일, {0}일 후
 			m_sName_withFullPath = System.IO.Path.Combine(Config.sFolderPath, m_sName);
 		}
 	}
@@ -76,6 +80,8 @@ namespace Reviewer
 	public class SpecialFolder : Folder // 날짜 제외 특수 폴더
 	{
 		public eFolder eFolder => (eFolder)m_nData;
+		public override bool bIsStartFolder	=> (eFolder == eFolder.Start);
+		public override bool bIsFinishFolder => (eFolder == eFolder.Finish);
 
 		public SpecialFolder(int a_nData) : base(a_nData) { }
 
