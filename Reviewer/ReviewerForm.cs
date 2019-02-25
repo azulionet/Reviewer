@@ -30,9 +30,10 @@ namespace Reviewer
 
 			// 프로그램 초기화
 			ReviewMng.Ins.Init(this);
+			string path = Config.sFolderPath;
 
 			// UI 초기화
-			m_uiTextFolder.Text = Properties.Resources.sFolderDefaultWord;
+			m_uiTextFolder.Text = string.IsNullOrEmpty(path) ? Properties.Resources.sFolderDefaultWord : path;
 			m_uiTextState.Text = Properties.Resources.sWaitState;
 
 			m_eState = eState.StandBy;
@@ -77,6 +78,8 @@ namespace Reviewer
 			}
 
 			m_uiTextFolder.Text = sPath;
+
+			Config.SetFolderPath(sPath);
 
 			// 데일리 폴더들이 있다면 오른쪽에 표기 & 데이터 수집
 			// 없으면 냅도야지

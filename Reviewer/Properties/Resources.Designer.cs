@@ -79,6 +79,15 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   적용된 날짜가 없습니다. 복습 안하실 건가요?과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sDateStringEmpty {
+            get {
+                return ResourceManager.GetString("sDateStringEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   문자열을 형식에 맞게 다시 입력해 주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sDateStringError {

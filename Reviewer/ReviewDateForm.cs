@@ -25,7 +25,7 @@ namespace Reviewer
 			m_liFixedDay.Clear();
 			m_liAfterDay.Clear();
 
-			var liSavedData = ReviewMng.Ins.m_liDate;
+			var liSavedData = Config.liDate;
 
 			foreach( var val in liSavedData)
 			{
@@ -107,12 +107,16 @@ namespace Reviewer
 				}
 
 				m_liAllDay.AddRange(m_liAfterDay);
-				
-				if ( m_liAllDay.CheckMatch(ReviewMng.Ins.m_liDate) == false )
+
+				if( m_liAllDay.Count == 0 )
 				{
-					ReviewMng.Ins.ChangeDate(m_liAllDay);
+					MessageBox.Show(Properties.Resources.sDateStringEmpty,
+									Properties.Resources.sOK);
+					return;
 				}
 
+				ReviewMng.Ins.ChangeDate(m_liAllDay);
+				
 				m_uiFixedDateText.Text = "";
 				m_uiAfterDateText.Text = "";
 

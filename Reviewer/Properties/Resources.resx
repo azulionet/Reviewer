@@ -125,6 +125,10 @@
     <value>문자열에 중복된 값이 있습니다.</value>
     <comment>고정 날짜에 중복값이 있는 경우</comment>
   </data>
+  <data name="sDateStringEmpty" xml:space="preserve">
+    <value>적용된 날짜가 없습니다. 복습 안하실 건가요?</value>
+    <comment>ReviewDataForm에서 사용, 파싱한 문자열이 비어있을 때 사용</comment>
+  </data>
   <data name="sDateStringError" xml:space="preserve">
     <value>문자열을 형식에 맞게 다시 입력해 주세요.</value>
     <comment>ReviewDataForm 에서 사용, 문자열 잘못 입력시 사용</comment>

@@ -5,6 +5,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 
+using LitJson;
+
 // 대다수의 클래스는 멀티쓰레드에서 사용하는 걸 고려하지 않고 제작
 namespace Reviewer.Global
 {
@@ -82,8 +84,35 @@ namespace Reviewer.Global
 
 			return s;
 		}
+	}
 
-		// 구조체성 클래스 -----------------------------------------------------------
+	public static class JsonHelper
+	{
+		public static ConfigData GetConfig()
+		{
+			string sFileName = Path.FileName(Path.eFile.Config);
+
+			if (System.IO.File.Exists(sFileName) == false)
+			{
+				return null;
+			}
+
+			string s = File.Read(sFileName, null);
+
+			if( string.IsNullOrEmpty(s) == true )
+			{
+				return null;
+			}
+			
+			return LitJson.JsonMapper.ToObject<ConfigData>(s);
+		}
+
+		public static void SaveConfig(ConfigData a_refData)
+		{
+			string s = LitJson.JsonMapper.ToJson(a_refData);
+
+			File.Wright(Path.FileName(Path.eFile.Config), s, File.eWrite.OverWrite);
+		}
 	}
 
 	public static class Path
@@ -112,9 +141,18 @@ namespace Reviewer.Global
 			sSavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 			sSavePath = System.IO.Path.Combine(sSavePath, sRootFolder);
 
+			// 문서(윈도우 특별폴더) 에 리뷰어 폴더 생성
 			if (System.IO.File.Exists(sSavePath) == false)
 			{
 				System.IO.Directory.CreateDirectory(sSavePath);
+			}
+
+			// 컨피그파일 생성
+			string sConfig = System.IO.Path.Combine(sSavePath, sConfigFile);
+
+			if( System.IO.File.Exists(sConfig) == false )
+			{
+				System.IO.File.Create(sConfig);
 			}
 		}
 
@@ -124,8 +162,8 @@ namespace Reviewer.Global
 
 			switch (a_eFile)
 			{
-				case eFile.Config: { sTemp = sConfigFile; } break;
-				case eFile.Log: { sTemp = sLogFile; } break;
+				case eFile.Config:	{ sTemp = sConfigFile; } break;
+				case eFile.Log:		{ sTemp = sLogFile; } break;
 			}
 
 			return System.IO.Path.Combine(sSavePath, sTemp);
@@ -170,7 +208,13 @@ namespace Reviewer.Global
 			{
 				using (StreamReader sr = new StreamReader(fs))
 				{
-					a_fpRead(s);
+					string temp = null;
+					while ( (temp = sr.ReadLine() ) != null)
+					{
+						s += temp;
+					}
+
+					a_fpRead?.Invoke(s);
 				}
 			}
 
@@ -194,7 +238,7 @@ namespace Reviewer.Global
 						eMode = FileMode.Append;
 						break;
 					case eWrite.OverWrite:
-						eMode = FileMode.Open;
+						eMode = FileMode.Create;
 						break;
 					default:
 						break;
@@ -291,9 +335,102 @@ namespace Reviewer.Global
 		}
 	}
 
-	// 인터페이스 -----------------------------------------------------------
-	public interface IMustDeepCopy<T>
+	// 구조체성 클래스
+	public class ConfigData
 	{
-		void Copy(T a_refSource);
+		public string sDateString = string.Empty;
+		public string sFolderPath = string.Empty;
+		public List<int> liDate = new List<int>();
+
+		public bool IsSetting()
+		{
+			bool bSetting = false;
+
+			bSetting |= string.IsNullOrEmpty(sDateString);
+			bSetting |= string.IsNullOrEmpty(sFolderPath);
+			bSetting |= liDate.Count == 0;
+
+			// 위에 꺼중 하나라도 true면 안됨
+			return !bSetting;
+		}
 	}
+
+	public static class Config
+	{
+		private static ConfigData	data = null;
+
+		public static void Init()
+		{
+			data = JsonHelper.GetConfig();
+
+			if( data == null )
+			{
+				data = new ConfigData();
+			}
+
+			if( data.IsSetting() == false )
+			{
+				SetDefaultValue();
+			}
+		}
+
+		public static void SetDefaultValue()
+		{
+			data.sDateString = DateTime.Now.ToShortDateString();
+
+			data.liDate = new List<int>()
+			{
+				1,2,3,
+
+				 3 + (int)Global.eDate.AfterDateGap,
+				 7 + (int)Global.eDate.AfterDateGap,
+				15 + (int)Global.eDate.AfterDateGap,
+				30 + (int)Global.eDate.AfterDateGap,
+			};
+
+			// 폴더는 실제 세팅 UI에서 세팅 해야 적용
+		}
+
+		public static void SetFolderPath(string s)
+		{
+			data.sFolderPath = s;
+
+			SaveConfig();
+		}
+
+		public static bool SetDate(List<int> a_liDate)
+		{
+			if (data.liDate.CheckMatch(a_liDate) == true)
+			{
+				return false;
+			}
+			
+			data.liDate.Clear();
+			data.liDate.AddRange(a_liDate);
+
+			if (bIsSetting == true)
+			{
+				Config.SaveConfig();
+			}
+
+			return true;
+		}
+
+		public static void SaveConfig()
+		{
+			if( bIsSetting == false )
+			{
+				Define.LogError("logic error! - config value not setted");
+				return;
+			}
+
+			JsonHelper.SaveConfig(data);
+		}
+
+		public static bool			bIsSetting	=> data.IsSetting();
+		public static string		sDateString	=> data.sDateString;
+		public static string		sFolderPath	=> data.sFolderPath;
+		public static List<int>		liDate		=> data.liDate;
+	}
+
 }

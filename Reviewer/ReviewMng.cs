@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
-
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using Reviewer.Global;
 
 namespace Reviewer
 {
@@ -27,60 +25,29 @@ namespace Reviewer
 		}
 
 		#endregion
-		
+
 		private static ReviewMng m_Instance = null;
 
 		public bool bInit { get; private set; } = false;
 
-		public Form			m_refMainForm = null;
-		public DateTime		m_stToday;
-		public List<int>	m_liDate = null;
-
+		public Form m_refMainForm = null;
+		  
 		public void Init(Form a_refForm)
 		{
 			m_refMainForm = a_refForm;
 
-			// 1. 컨피그 파일이 없으면 만듬
-			// 2. 컨피그 파일에 파일 경로가 없다면 저장해야됨
-			// 3. 최초 경로 설정 창이 떠야함
-			// 경로 설정후, 폴더가 없으면 만들어야하고, 폴더가 있다면 경로를 수집해야함
-			// 
+			Global.Config.Init();
 
-
-			m_stToday = DateTime.Now;
-
-			// 기본이 1,2,3일 / 3일후, 7일후, 15일후, 30일후
-			m_liDate = new List<int>
-			{
-				1,2,3,
-
-				 3 + (int)Global.eDate.AfterDateGap,
-				 7 + (int)Global.eDate.AfterDateGap,
-				15 + (int)Global.eDate.AfterDateGap,
-				30 + (int)Global.eDate.AfterDateGap,
-			};
-			
 			bInit = true;
 		}
 
 		public void ChangeDate(List<int> m_refAllDay)
 		{
-			string s = "";
-
-			m_liDate.Clear();
-			m_liDate.AddRange(m_refAllDay);
-
-			for (int i = 0; i < m_liDate.Count; ++i)
+			if( Config.SetDate(m_refAllDay) == true )
 			{
-				s += m_liDate[i];
+				// 날짜리스트 변경되면 폴더안에 파일들이 다 바뀜 개마늠
 
-				if (i < (m_liDate.Count - 1))
-				{
-					s += ", ";
-				}
 			}
-			
-			MessageBox.Show(s, "OK");
 		}
 	}
 }
