@@ -7,6 +7,10 @@ using System.Text;
 
 using LitJson;
 
+// 바로가기를 위함
+using IWshRuntimeLibrary; // COM의 Windows Script Host Object Model 참조 필요, 참조 설정 Interop 형식 true -> false로 해야함
+using System.Windows.Forms;
+
 // 대다수의 클래스는 멀티쓰레드에서 사용하는 걸 고려하지 않고 제작
 namespace Reviewer.Global
 {
@@ -105,6 +109,28 @@ namespace Reviewer.Global
 			Debug.Assert(false, s);
 
 			return s;
+		}
+
+		public static void MakeShortCut(string a_sMakeShortcutyName, string a_sOringinFileExecutablePath)
+		{
+			var desktopDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+			DirectoryInfo info = new DirectoryInfo(desktopDir);
+			
+			string sFileName = info.FullName + "\\" + a_sMakeShortcutyName + ".lnk";
+
+			FileInfo fileInfo = new FileInfo(sFileName);
+
+			try
+			{
+				WshShell shell = new WshShell();
+				IWshShortcut link = (IWshShortcut)shell.CreateShortcut(fileInfo.FullName);
+				link.TargetPath = a_sOringinFileExecutablePath;
+				link.Save();
+			}
+			catch(Exception ex)
+			{
+				Define.LogError(string.Format("Make Shortcut Error - {0}", ex.Message));
+			}
 		}
 	}
 

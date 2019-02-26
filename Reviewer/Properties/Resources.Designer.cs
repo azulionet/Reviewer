@@ -178,6 +178,24 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   Reviewer 바로가기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sShortcutExe {
+            get {
+                return ResourceManager.GetString("sShortcutExe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   공부폴더 바로가기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sShortcutStartReview {
+            get {
+                return ResourceManager.GetString("sShortcutStartReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   잠시만 기다려 주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sWaitState {

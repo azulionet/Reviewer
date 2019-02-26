@@ -37,6 +37,8 @@
 			this.m_uiTextFolder = new System.Windows.Forms.TextBox();
 			this.m_uiTextState = new System.Windows.Forms.Label();
 			this.button4 = new System.Windows.Forms.Button();
+			this.button5 = new System.Windows.Forms.Button();
+			this.button6 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// m_uiReviewList
@@ -51,10 +53,10 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(333, 557);
+			this.button1.Location = new System.Drawing.Point(333, 466);
 			this.button1.Margin = new System.Windows.Forms.Padding(4);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(146, 63);
+			this.button1.Size = new System.Drawing.Size(117, 63);
 			this.button1.TabIndex = 1;
 			this.button1.Text = "복습";
 			this.button1.UseVisualStyleBackColor = true;
@@ -124,11 +126,35 @@
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.OnDateSettingButton_Click);
 			// 
+			// button5
+			// 
+			this.button5.Location = new System.Drawing.Point(333, 559);
+			this.button5.Margin = new System.Windows.Forms.Padding(4);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(190, 63);
+			this.button5.TabIndex = 11;
+			this.button5.Text = "바탕화면에 복습시작 폴더 바로가기 만들기";
+			this.button5.UseVisualStyleBackColor = true;
+			this.button5.Click += new System.EventHandler(this.OnCreateShortCutButton_Click);
+			// 
+			// button6
+			// 
+			this.button6.Location = new System.Drawing.Point(615, 557);
+			this.button6.Margin = new System.Windows.Forms.Padding(4);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(190, 63);
+			this.button6.TabIndex = 12;
+			this.button6.Text = "바탕화면에 실행파일 바로가기 만들기";
+			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Click += new System.EventHandler(this.OnCreateExeShortCutButton_Click);
+			// 
 			// ReviewerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1160, 661);
+			this.Controls.Add(this.button6);
+			this.Controls.Add(this.button5);
 			this.Controls.Add(this.button4);
 			this.Controls.Add(this.m_uiTextState);
 			this.Controls.Add(this.m_uiTextFolder);
@@ -157,6 +183,8 @@
 		private System.Windows.Forms.TextBox m_uiTextFolder;
 		private System.Windows.Forms.Label m_uiTextState;
 		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button button6;
 	}
 }
 

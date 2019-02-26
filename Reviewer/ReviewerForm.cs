@@ -15,7 +15,7 @@ namespace Reviewer
 		Form m_DateForm = null;
 		eState m_eState = eState.Wait;
 
-		public bool bStandByState
+		public bool bStandByUIState
 		{
 			get
 			{
@@ -35,11 +35,11 @@ namespace Reviewer
 
 			string path = Config.sFolderPath;
 			m_uiTextFolder.Text = string.IsNullOrEmpty(path) ? Properties.Resources.sFolderDefaultWord : path;
-			
+
 			// 상태 ㅇㅋ
 			m_eState = eState.StandBy;
 			m_uiTextState.Text = Properties.Resources.sDefaultState;
-			
+
 			// m_uiReviewList.Items.Add("1");
 			// m_uiReviewList.Items.Add("2");
 			// m_uiReviewList.Items.Add("3");
@@ -55,7 +55,7 @@ namespace Reviewer
 		// 이벤트 처리기
 		private void OnFolderSettingButton_Click(object sender, EventArgs e)
 		{
-			if (bStandByState == false) { return; }
+			if (bStandByUIState == false) { return; }
 
 			string sPath = string.Empty;
 
@@ -94,19 +94,19 @@ namespace Reviewer
 
 		private void OnReviewButton_Click(object sender, EventArgs e)
 		{
-			if (bStandByState == false) { return; }
+			if (bStandByUIState == false) { return; }
 
 		}
 
 		private void OnDateApplyButton_Click(object sender, EventArgs e)
 		{
-			if (bStandByState == false) { return; }
+			if (bStandByUIState == false) { return; }
 
 		}
 
 		private void OnDateSettingButton_Click(object sender, EventArgs e)
 		{
-			if (bStandByState == false) { return; }
+			if (bStandByUIState == false) { return; }
 
 			if (m_DateForm == null)
 			{
@@ -122,6 +122,22 @@ namespace Reviewer
 			{
 				e.NewValue = CheckState.Indeterminate;
 			}
+		}
+
+		private void OnCreateShortCutButton_Click(object sender, EventArgs e)
+		{
+			if (bStandByUIState == false) { return; }
+			if (Config.bIsSetting == false) { return; }
+
+			string sStartName = ReviewMng.Ins.m_arSpecialFolder[(int)eFolder.Start].m_sName_withFullPath;
+			Define.MakeShortCut(Properties.Resources.sShortcutStartReview, sStartName);
+		}
+
+		private void OnCreateExeShortCutButton_Click(object sender, EventArgs e)
+		{
+			if (bStandByUIState == false) { return; }
+
+			Define.MakeShortCut(Properties.Resources.sShortcutExe, Application.ExecutablePath);
 		}
 	}
 }

@@ -169,6 +169,14 @@
     <value>OK</value>
     <comment>UI 버튼 OK</comment>
   </data>
+  <data name="sShortcutExe" xml:space="preserve">
+    <value>Reviewer 바로가기</value>
+    <comment>바로가기 생성시, 실행 파일 이름</comment>
+  </data>
+  <data name="sShortcutStartReview" xml:space="preserve">
+    <value>공부폴더 바로가기</value>
+    <comment>바로가기 생성시, 공부 폴더 이름</comment>
+  </data>
   <data name="sWaitState" xml:space="preserve">
     <value>잠시만 기다려 주세요.</value>
     <comment>최초 초기화, 기타 기다려야할 상태</comment>
