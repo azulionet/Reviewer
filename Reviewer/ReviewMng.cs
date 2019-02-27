@@ -32,9 +32,8 @@ namespace Reviewer
 
 		public Form					m_refMainForm = null;
 
-		public List<DateFolder>		m_liDateFolder = new List<DateFolder>();
-
-		public SpecialFolder[]		m_arSpecialFolder = new SpecialFolder[(int)eFolder.CountMax];
+		public List<Folder>			m_liDateFolder = new List<Folder>();
+		public Folder[]				m_arSpecialFolder = new Folder[(int)eFolder.CountMax];
 
 		public void Init(Form a_refForm)
 		{
@@ -48,21 +47,23 @@ namespace Reviewer
 			bInit = true;
 		}
 
-		void ResearchFoldersAndFiles()
+		public void ResearchFoldersAndFiles()
 		{
 			if( Config.bIsSetting == false ) { return; }
 
 			var sRoot = Config.sFolderPath;
 			var liDate = Config.liDate;
+
+			m_liDateFolder.Clear();
 			
-			foreach( var val in liDate )
+			foreach ( var val in liDate )
 			{
-				m_liDateFolder.Add(new DateFolder(val));
+				m_liDateFolder.Add(new Folder(eFolder.Normal, val));
 			}
 
-			for( int i=0; i<(int)eFolder.CountMax; ++i ) // 폴더를 전부 만들어야 해서 <=
+			for ( int i=(int)eFolder.Start; i<=(int)eFolder.Finish; ++i )
 			{
-				m_arSpecialFolder[i] = new SpecialFolder(i);
+				m_arSpecialFolder[i] = new Folder((eFolder)i);
 			}			
 		}
 		
@@ -70,7 +71,7 @@ namespace Reviewer
 		{
 			if( Config.SetDate(m_refAllDay) == true )
 			{
-				// 날짜리스트 변경되면 폴더안에 파일들이 다 바뀜 개마늠
+				// todo : 날짜리스트 변경되면 폴더안에 파일들이 다 바뀜 할 일 개마늠
 
 				ResearchFoldersAndFiles();
 			}

@@ -87,6 +87,7 @@ namespace Reviewer
 			m_uiTextFolder.Text = sPath;
 
 			Config.SetFolderPath(sPath);
+			ReviewMng.Ins.ResearchFoldersAndFiles();
 
 			// 데일리 폴더들이 있다면 오른쪽에 표기 & 데이터 수집
 			// 없으면 냅도야지

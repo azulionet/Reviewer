@@ -29,11 +29,12 @@ namespace Reviewer.Global
 		AfterDateGap = 20000, // ~일 후 날짜 컨피그에 저장될 때, 3일후, 7일후, 15일후 => 20003, 20007, 20015
 	}
 
-	// 날짜 폴더를 제외한 특수폴더
 	public enum eFolder
 	{
-		// Start, Finish 사이에 enum 추가요망( for 문 돌리기 용이하도록 )
-		Start,
+		Normal,
+		UnmatchDate, // 컨피그 파일이 바뀌어 컨피그 외의 날짜가 들어있는 폴더		
+
+		Start, // 추가 특별 폴더는 Start, Finish 사이에 작업, Path에 파일이름 추가 필요
 		Log,
 		Finish,
 
@@ -56,11 +57,6 @@ namespace Reviewer.Global
 			Add((int)a_eType, a_nMicroSec, a_fpCallback);
 		}
 	}
-
-
-
-
-
 
 	public static partial class Define
 	{
@@ -193,15 +189,32 @@ namespace Reviewer.Global
 			}
 		}
 
-		public static string FolderName(eFolder a_eFolder)
+		public static string FolderName(eFolder a_eFolder, int a_nData = 0)
 		{
 			string sName = string.Empty;
 
 			switch (a_eFolder)
 			{
-				case eFolder.Start:		{ return sName = Properties.Resources.sFolderName_Start; }
-				case eFolder.Log:		{ return sName = Properties.Resources.sFolderName_Log; }
-				case eFolder.Finish:	{ return sName = Properties.Resources.sFolderName_Finish; }
+				case eFolder.Normal:
+				{
+					string sStringFormat = string.Empty;
+					
+					if (a_nData < (int)Global.eDate.AfterDateGap)
+					{
+						sStringFormat = Properties.Resources.sFixedDateForderAdd;
+						a_nData -= (int)Global.eDate.FixedDateGap;
+					}
+					else
+					{
+						sStringFormat = Properties.Resources.sAfterDateFolderAdd;
+						a_nData -= (int)Global.eDate.AfterDateGap;
+					}
+
+					sName = string.Format(sStringFormat, a_nData); // _{0}일, {0}일 후
+				} break;
+				case eFolder.Start:		{ sName = Properties.Resources.sFolderName_Start; } break;
+				case eFolder.Log:		{ sName = Properties.Resources.sFolderName_Log; } break;
+				case eFolder.Finish:	{ sName = Properties.Resources.sFolderName_Finish; } break;
 			}
 
 			if( string.IsNullOrEmpty(sName) == true )
@@ -210,8 +223,7 @@ namespace Reviewer.Global
 				return string.Empty;
 			}
 
-			sName += "\\";			
-			return string.Empty;
+			return sName;
 		}
 
 		public static string FileName_inMyDocument(eDocumentFile a_eFile)

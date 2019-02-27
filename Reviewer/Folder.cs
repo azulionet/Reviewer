@@ -8,15 +8,16 @@ using Reviewer.Global;
 
 namespace Reviewer
 {
-	public abstract class Folder
+	public class Folder
 	{
+		public eFolder		m_eFolder;
 		public int			m_nData;
 		public string		m_sName;
 		public string		m_sName_withFullPath;
 		public List<string>	m_liChild = new List<string>();
-
-		public virtual bool	bIsStartFolder => false;
-		public virtual bool bIsFinishFolder => false;
+		
+		public bool			bIsStartFolder => (m_eFolder == eFolder.Start);
+		public bool			bIsFinishFolder => (m_eFolder == eFolder.Finish);
 
 		public string sFolderName
 		{
@@ -30,11 +31,12 @@ namespace Reviewer
 
 		public int nFileCount { get { return m_liChild.Count; } }
 
-		public Folder(int a_nData)
+		public Folder(eFolder a_eFolder, int a_nData = 0)
 		{
-			m_nData = a_nData;
-
-			SetName();
+			m_eFolder				= a_eFolder;
+			m_nData					= a_nData;
+			m_sName					= Global.Path.FolderName(m_eFolder, m_nData);
+			m_sName_withFullPath	= System.IO.Path.Combine(Config.sFolderPath, m_sName);
 
 			if (string.IsNullOrEmpty(m_sName_withFullPath) == true) { Define.LogError("logic error"); return; }
 
@@ -48,47 +50,6 @@ namespace Reviewer
 				System.IO.Directory.CreateDirectory(sFolderName);
 			}
 		}
-
-		public abstract void SetName();
-	}
-	
-	public class DateFolder : Folder // 날짜 폴더 하나, 내부의 파일들
-	{
-		public DateFolder(int a_nData) : base(a_nData) { }
-		
-		public override void SetName()
-		{
-			string sStringFormat = string.Empty;
-			int nName = m_nData;
-
-			if (nName < (int)Global.eDate.AfterDateGap)
-			{
-				sStringFormat = Properties.Resources.sFixedDateForderAdd;
-				nName -= (int)Global.eDate.FixedDateGap;
-			}
-			else
-			{
-				sStringFormat = Properties.Resources.sAfterDateFolderAdd;
-				nName -= (int)Global.eDate.AfterDateGap;
-			}
-
-			m_sName = string.Format(sStringFormat, nName); // _{0}일, {0}일 후
-			m_sName_withFullPath = System.IO.Path.Combine(Config.sFolderPath, m_sName);
-		}
 	}
 
-	public class SpecialFolder : Folder // 날짜 제외 특수 폴더
-	{
-		public eFolder eFolder => (eFolder)m_nData;
-		public override bool bIsStartFolder	=> (eFolder == eFolder.Start);
-		public override bool bIsFinishFolder => (eFolder == eFolder.Finish);
-
-		public SpecialFolder(int a_nData) : base(a_nData) { }
-
-		public override void SetName()
-		{
-			m_sName = Global.Path.FolderName(eFolder);
-			m_sName_withFullPath = System.IO.Path.Combine(Config.sFolderPath, m_sName);
-		}
-	}
 }
