@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using LitJson;
 
@@ -37,17 +38,6 @@ namespace Reviewer.Global
 		Start, // 추가 특별 폴더는 Start, Finish 사이에 작업, Path에 파일이름 추가 필요
 		Log,
 		Finish,
-
-		CountMax,
-	}
-
-	// 일반 복습용 파일을 제외한 특수 파일
-	public enum eFile
-	{
-		Review,
-		NoReviewed,
-		Finished,
-		Log,
 	}
 
 	public static partial class Timer
@@ -177,6 +167,9 @@ namespace Reviewer.Global
 		public const string sLogFile		= "ToolLog.txt";
 		public const string sToolLogFile	= "ToolLog.txt";
 
+		// 파일 구분자
+		const string sNameSeperator			= "@@";
+		
 		static Path()
 		{
 			sSavePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -192,7 +185,6 @@ namespace Reviewer.Global
 		public static string FolderName(eFolder a_eFolder, int a_nData = 0)
 		{
 			string sName = string.Empty;
-
 			switch (a_eFolder)
 			{
 				case eFolder.Normal:
@@ -239,6 +231,24 @@ namespace Reviewer.Global
 			}
 
 			return System.IO.Path.Combine(sSavePath, sTemp);
+		}
+
+		public static bool IsMatchingReviewFileFormat(string a_sFileName)
+		{
+			// 파일 이름 포맷
+			// filename@@0000@@2019-10-10@@2019-10-11.ext
+			// filename	: 말 그대로 파일이름
+			// @@		: 구분자로 사용
+			// 0000		: 복습을 한 횟수
+			// @@		: 구분자
+			// 년-월-일	: DateTime.ToShortDateString() 의 포맷, 복습 시작 날짜
+			// @@		: 구분자
+			// 년-월-일	: 마지막 복습일
+			// .ext		: 해당 파일 확장자
+
+			// 실제 파일이름이 올것이기 때문에 파일 이름에 대한 체크는 하지 않아도 됨
+
+			return Regex.IsMatch(a_sFileName, "@@[0-9]{4}@@[0-9]{4}-[0-9]{2}-[0-9]{2}@@[0-9]{4}-[0-9]{2}-[0-9]{2}");
 		}
 	}
 

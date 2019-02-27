@@ -125,6 +125,10 @@
     <value>CANCEL</value>
     <comment>UI 버튼 Cancel</comment>
   </data>
+  <data name="sCongraturation" xml:space="preserve">
+    <value>모든 복습을 마쳤습니다!</value>
+    <comment>복습 완료시 뜨는 문구</comment>
+  </data>
   <data name="sDateStringDuplicated" xml:space="preserve">
     <value>문자열에 중복된 값이 있습니다.</value>
     <comment>고정 날짜에 중복값이 있는 경우</comment>
@@ -138,7 +142,7 @@
     <comment>ReviewDataForm 에서 사용, 문자열 잘못 입력시 사용</comment>
   </data>
   <data name="sDefaultState" xml:space="preserve">
-    <value />
+    <value>---</value>
     <comment>상태표기 보통상태</comment>
   </data>
   <data name="sERROR_WRONG_PATH" xml:space="preserve">
@@ -164,6 +168,18 @@
   <data name="sFolderName_Start" xml:space="preserve">
     <value>Start</value>
     <comment>폴더명</comment>
+  </data>
+  <data name="sNoCheckList_InReviewList" xml:space="preserve">
+    <value>복습에 체크된 항목이 없습니다.</value>
+    <comment>복습에 체크된 것이 없을때 뜨는 메세지</comment>
+  </data>
+  <data name="sNoList_InReviewList" xml:space="preserve">
+    <value>복습할 항목이 없습니다.</value>
+    <comment>복습항목에 전부 없을 때 뜨는 메세지</comment>
+  </data>
+  <data name="sNoReviewFiles" xml:space="preserve">
+    <value>복습할 파일이 없습니다.</value>
+    <comment>복습 파일이 없을 때</comment>
   </data>
   <data name="sOK" xml:space="preserve">
     <value>OK</value>

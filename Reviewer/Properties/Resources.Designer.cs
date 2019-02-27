@@ -79,6 +79,15 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   모든 복습을 마쳤습니다!과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sCongraturation {
+            get {
+                return ResourceManager.GetString("sCongraturation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   문자열에 중복된 값이 있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sDateStringDuplicated {
@@ -106,7 +115,7 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
-        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   ---과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sDefaultState {
             get {
@@ -165,6 +174,33 @@ namespace Reviewer.Properties {
         public static string sFolderName_Start {
             get {
                 return ResourceManager.GetString("sFolderName_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   복습에 체크된 항목이 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sNoCheckList_InReviewList {
+            get {
+                return ResourceManager.GetString("sNoCheckList_InReviewList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   복습할 항목이 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sNoList_InReviewList {
+            get {
+                return ResourceManager.GetString("sNoList_InReviewList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   복습할 파일이 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sNoReviewFiles {
+            get {
+                return ResourceManager.GetString("sNoReviewFiles", resourceCulture);
             }
         }
         
