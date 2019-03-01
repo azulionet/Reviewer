@@ -141,10 +141,6 @@
     <value>문자열을 형식에 맞게 다시 입력해 주세요.</value>
     <comment>ReviewDataForm 에서 사용, 문자열 잘못 입력시 사용</comment>
   </data>
-  <data name="sDefaultState" xml:space="preserve">
-    <value>---</value>
-    <comment>상태표기 보통상태</comment>
-  </data>
   <data name="sERROR_WRONG_PATH" xml:space="preserve">
     <value>경로 설정이 잘 못 되었습니다.</value>
     <comment>에러문구 ㅇㅇ</comment>
@@ -174,7 +170,7 @@
     <comment>폴더명</comment>
   </data>
   <data name="sNoCheckList_InReviewList" xml:space="preserve">
-    <value>복습에 체크된 항목이 없습니다.</value>
+    <value>복습한 항목이 없습니다.</value>
     <comment>복습에 체크된 것이 없을때 뜨는 메세지</comment>
   </data>
   <data name="sNoList_InReviewList" xml:space="preserve">
@@ -197,6 +193,14 @@
     <value>https://www.youtube.com/watch?v=tGykPqgKB4I&amp;t</value>
     <comment>원본영상 링크주소</comment>
   </data>
+  <data name="sReviewSelectFile" xml:space="preserve">
+    <value>복습할 파일을 선택해주세요.</value>
+    <comment>복습 선택 에러</comment>
+  </data>
+  <data name="sReviewSelectMuchFile" xml:space="preserve">
+    <value>복습할 파일은 하나만 선택해 주세요.</value>
+    <comment>복습 선택 에러</comment>
+  </data>
   <data name="sShortcutExe" xml:space="preserve">
     <value>Reviewer 바로가기</value>
     <comment>바로가기 생성시, 실행 파일 이름</comment>
@@ -205,7 +209,15 @@
     <value>공부폴더 바로가기</value>
     <comment>바로가기 생성시, 공부 폴더 이름</comment>
   </data>
-  <data name="sWaitState" xml:space="preserve">
+  <data name="sState_Default" xml:space="preserve">
+    <value>---</value>
+    <comment>상태표기 보통상태</comment>
+  </data>
+  <data name="sState_FileExecute" xml:space="preserve">
+    <value>복습 파일 실행.</value>
+    <comment>안내창 - 복습파일 실행시 잠시 띄움</comment>
+  </data>
+  <data name="sState_Wait" xml:space="preserve">
     <value>잠시만 기다려 주세요.</value>
     <comment>최초 초기화, 기타 기다려야할 상태</comment>
   </data>

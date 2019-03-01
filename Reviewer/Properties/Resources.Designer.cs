@@ -115,15 +115,6 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
-        ///   ---과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string sDefaultState {
-            get {
-                return ResourceManager.GetString("sDefaultState", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   경로 설정이 잘 못 되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sERROR_WRONG_PATH {
@@ -187,7 +178,7 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
-        ///   복습에 체크된 항목이 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   복습한 항목이 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sNoCheckList_InReviewList {
             get {
@@ -241,6 +232,24 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   복습할 파일을 선택해주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sReviewSelectFile {
+            get {
+                return ResourceManager.GetString("sReviewSelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   복습할 파일은 하나만 선택해 주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sReviewSelectMuchFile {
+            get {
+                return ResourceManager.GetString("sReviewSelectMuchFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Reviewer 바로가기과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sShortcutExe {
@@ -259,11 +268,29 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   ---과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sState_Default {
+            get {
+                return ResourceManager.GetString("sState_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   복습 파일 실행.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sState_FileExecute {
+            get {
+                return ResourceManager.GetString("sState_FileExecute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   잠시만 기다려 주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string sWaitState {
+        public static string sState_Wait {
             get {
-                return ResourceManager.GetString("sWaitState", resourceCulture);
+                return ResourceManager.GetString("sState_Wait", resourceCulture);
             }
         }
     }

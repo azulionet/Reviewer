@@ -57,17 +57,20 @@
 			this.m_uiReviewList.Size = new System.Drawing.Size(287, 533);
 			this.m_uiReviewList.TabIndex = 2;
 			this.m_uiReviewList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnReviewList_ItemCheck);
+			this.m_uiReviewList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(337, 298);
+			this.button1.Location = new System.Drawing.Point(337, 465);
 			this.button1.Margin = new System.Windows.Forms.Padding(4);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(196, 155);
 			this.button1.TabIndex = 6;
+			this.button1.TabStop = false;
 			this.button1.Text = "복습 완료";
 			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.OnReviewButton_Click);
+			this.button1.Click += new System.EventHandler(this.OnReviewCompleteButton_Click);
+			this.button1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
 			// 
 			// m_uiFolderTree
 			// 
@@ -82,9 +85,11 @@
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(137, 35);
 			this.button3.TabIndex = 0;
+			this.button3.TabStop = false;
 			this.button3.Text = "폴더 설정";
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.OnFolderSettingButton_Click);
+			this.button3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
 			// 
 			// m_uiTextFolder
 			// 
@@ -93,6 +98,7 @@
 			this.m_uiTextFolder.Name = "m_uiTextFolder";
 			this.m_uiTextFolder.Size = new System.Drawing.Size(711, 28);
 			this.m_uiTextFolder.TabIndex = 1;
+			this.m_uiTextFolder.TabStop = false;
 			// 
 			// m_uiTextState
 			// 
@@ -105,12 +111,15 @@
 			// 
 			// m_uiReview
 			// 
-			this.m_uiReview.Location = new System.Drawing.Point(337, 114);
+			this.m_uiReview.Location = new System.Drawing.Point(339, 112);
 			this.m_uiReview.Name = "m_uiReview";
-			this.m_uiReview.Size = new System.Drawing.Size(196, 153);
+			this.m_uiReview.Size = new System.Drawing.Size(196, 298);
 			this.m_uiReview.TabIndex = 5;
+			this.m_uiReview.TabStop = false;
 			this.m_uiReview.Text = "복습";
 			this.m_uiReview.UseVisualStyleBackColor = true;
+			this.m_uiReview.Click += new System.EventHandler(this.OnReviewButton_Click);
+			this.m_uiReview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
 			// 
 			// menuStrip2
 			// 
@@ -170,8 +179,8 @@
             this.m_menuEtc_OpenStudyFolder,
             this.m_menuEtc_Help});
 			this.m_menuEtc.Name = "m_menuEtc";
-			this.m_menuEtc.Size = new System.Drawing.Size(126, 29);
-			this.m_menuEtc.Text = "기타 & 도움말";
+			this.m_menuEtc.Size = new System.Drawing.Size(122, 29);
+			this.m_menuEtc.Text = "기타_도움말";
 			// 
 			// m_menuEtc_DateSetting
 			// 

@@ -35,7 +35,7 @@ namespace Reviewer
 		{
 			InitializeComponent();
 
-			m_uiTextState.Text = Properties.Resources.sWaitState;
+			m_uiTextState.Text = Properties.Resources.sState_Wait;
 
 			// 프로그램 초기화
 			ReviewMng.Ins.Init(this);
@@ -45,7 +45,7 @@ namespace Reviewer
 
 			// 상태 ㅇㅋ
 			m_eState = eState.StandBy;
-			m_uiTextState.Text = Properties.Resources.sDefaultState;
+			m_uiTextState.Text = Properties.Resources.sState_Default;
 
 			// m_uiReviewList.Items.Add("1");
 			// m_uiReviewList.Items.Add("2");
@@ -122,9 +122,6 @@ namespace Reviewer
 				MessageBox.Show(Properties.Resources.sERROR_WRONG_PATH,
 								Properties.Resources.sOK);
 
-				m_uiTextState.Text = "Error!";
-				eTimerEvent.StateText.Start(1500, () => { m_uiTextState.Text = Properties.Resources.sWaitState; });
-
 				return;
 			}
 
@@ -138,7 +135,8 @@ namespace Reviewer
 		}
 
 		List<object> m_liRemoveTemp = new List<object>();
-		private void OnReviewButton_Click(object sender, EventArgs e)
+
+		private void OnReviewCompleteButton_Click(object sender, EventArgs e)
 		{
 			if (bStandByUIState == false) { return; }
 
@@ -186,43 +184,36 @@ namespace Reviewer
 
 				if( _Items.Count == 0 ) { return; }
 
-				if (_Items.Count == 1)
+				if( m_uiReviewList.Items.Count == 1 &&
+					m_uiReviewList.CheckedItems.Count == 1 )
 				{
-					if (_Items[0] is File)
-					{
-						Define.LogError("logic error");
-						return;
-					}
-
-					m_liRemoveTemp.Add(_Items[0]);
+					m_liRemoveTemp.Add(m_uiReviewList.Items[0]);
 				}
-				else
+
+				var _list = m_uiReviewList.Items;
+
+				object before = null;
+
+				foreach (var _item in _list)
 				{
-					var _list = m_uiReviewList.Items;
-
-					object before = null;
-
-					foreach( var _item in _list )
+					if (before == null)
 					{
-						if(before == null)
+						if ((_item is File) == false)
 						{
-							if( (_item is File) == false )
-							{
-								before = _item;
-								continue;
-							}
+							before = _item;
+							continue;
+						}
+					}
+					else
+					{
+						if ((_item is File) == false)
+						{
+							m_liRemoveTemp.Add(_item);
+							before = _item;
 						}
 						else
 						{
-							if ((_item is File) == false)
-							{
-								m_liRemoveTemp.Add(_item);
-								before = _item;
-							}
-							else
-							{
-								before = null;
-							}
+							before = null;
 						}
 					}
 				}
@@ -246,18 +237,23 @@ namespace Reviewer
 			// check 하는 것으론 버튼을 못 바꾸도록 수정 ( 복습 버튼을 눌러야만 체크가 됨 )
 			if( e.NewValue == CheckState.Indeterminate ) { return; }
 
-			switch (e.CurrentValue)
+			if( bEventOpen == false )
 			{
-				case CheckState.Unchecked:
-					e.NewValue = CheckState.Unchecked;
-					break;
-				case CheckState.Checked:
-					e.NewValue = CheckState.Checked;
-					break;
- 				case CheckState.Indeterminate:
- 					e.NewValue = CheckState.Indeterminate;
- 					break;
+				switch (e.CurrentValue)
+				{
+					case CheckState.Unchecked:
+						e.NewValue = CheckState.Unchecked;
+						break;
+					case CheckState.Checked:
+						e.NewValue = CheckState.Checked;
+						break;
+					case CheckState.Indeterminate:
+						e.NewValue = CheckState.Indeterminate;
+						break;
+				}
 			}
+
+			bEventOpen = false;
 
 			/*
 
@@ -267,20 +263,53 @@ namespace Reviewer
 
 				if (file != null)
 				{
-					if( m_mapRunningFile.ContainsKey(file) == false )
-					{
-
-					}
-
-
-					p = Define.ExecuteFile(file.m_sName_withFullPath);
-
-					m_mapRunningFile.Add(file, p);
+					
 					
 				}
 			}
 			
 			*/
+		}
+
+		bool bEventOpen = false;
+		private void OnReviewButton_Click(object sender, EventArgs e)
+		{
+			int nCount = m_uiReviewList.SelectedItems.Count;
+
+			if (nCount == 0)
+			{
+				MessageBox.Show(Properties.Resources.sReviewSelectFile);
+				return;
+			}
+			else if (nCount >= 2)
+			{
+				MessageBox.Show(Properties.Resources.sReviewSelectMuchFile);
+				return;
+			}
+
+			var file = m_uiReviewList.SelectedItem as File;
+
+			if (file == null)
+			{
+				MessageBox.Show(Properties.Resources.sReviewSelectFile);
+				return;
+			}
+
+			int nIndex = 0;
+
+			foreach( var item in m_uiReviewList.Items )
+			{
+				if( item == m_uiReviewList.SelectedItem ) { break; }
+
+				++nIndex;
+			}
+
+			m_uiTextState.Text = Properties.Resources.sState_FileExecute;
+			eTimerEvent.StateText.Start(1500, () => { m_uiTextState.Text = Properties.Resources.sState_Default; });
+
+			bEventOpen = true;
+			m_uiReviewList.SetItemCheckState(nIndex, CheckState.Checked);
+			Define.ExecuteFile(file.m_sName_withFullPath);
 		}
 
 		// 이벤트 처리기 - 메뉴 ------------------------------------------------------------------------
@@ -338,6 +367,14 @@ namespace Reviewer
 			}
 
 			m_HelpForm.ShowDialog();
+		}
+
+		private void OnKeyDown(object sender, KeyEventArgs e)
+		{
+			if ( e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter )				
+			{
+				OnReviewButton_Click(null, default(EventArgs));
+			}
 		}
 	}
 }
