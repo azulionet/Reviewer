@@ -178,6 +178,15 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   Study과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sFolderName_Study {
+            get {
+                return ResourceManager.GetString("sFolderName_Study", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   복습한 항목이 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sNoCheckList_InReviewList {

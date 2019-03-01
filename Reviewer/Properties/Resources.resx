@@ -169,6 +169,10 @@
     <value>Start</value>
     <comment>폴더명</comment>
   </data>
+  <data name="sFolderName_Study" xml:space="preserve">
+    <value>Study</value>
+    <comment>실제 공부날짜들이 들어가는 폴더명</comment>
+  </data>
   <data name="sNoCheckList_InReviewList" xml:space="preserve">
     <value>복습한 항목이 없습니다.</value>
     <comment>복습에 체크된 것이 없을때 뜨는 메세지</comment>

@@ -1,4 +1,5 @@
 ﻿using Reviewer.Global;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -57,15 +58,16 @@ namespace Reviewer
 			m_liDateFolder.Clear();
 			m_mapSpecialFolder.Clear();
 
-			foreach (var val in liDate)
-			{
-				m_liDateFolder.Add(new Folder(eFolder.Normal, val));
-			}
-
+			// 특수폴더부터 생성해야함
 			for (int i = (int)eFolder.Start; i <= (int)eFolder.Finish; ++i)
 			{
 				eFolder eFolder = (eFolder)i;
 				m_mapSpecialFolder.Add(eFolder, new Folder((eFolder)eFolder));
+			}
+
+			foreach (var val in liDate)
+			{
+				m_liDateFolder.Add(new Folder(eFolder.Normal, val));
 			}
 
 			// 오늘 복습할 파일들 취합 
@@ -107,6 +109,42 @@ namespace Reviewer
 
 				ResearchFoldersAndFiles();
 			}
+		}
+
+		public void MoveFiles(List<object> a_liMove)
+		{
+			if( a_liMove == null || a_liMove.Count == 0 ) { Define.LogError("arg error"); return; }
+
+			foreach( File f in a_liMove )
+			{
+				if( f == null ) { Define.LogError("logic error"); continue; }
+
+				MoveFile(f);
+				m_liStudyList.Remove(f);
+			}
+		}
+
+		void MoveFile(File a_cTargetFile)
+		{
+			if( a_cTargetFile == null ) { Define.LogError("arg error"); return; }
+
+			Folder fDest = GetNextFolder(a_cTargetFile.m_refParent);
+
+			// 파일이름 바꾸고
+			// 실제 파일 이동
+
+			fDest.m_liChild.AddLast(a_cTargetFile);
+		}
+
+		Folder GetNextFolder(Folder a_cTarget)
+		{
+			if( a_cTarget == null ) { Define.LogError("arg error"); return null; }
+
+
+
+
+
+			return null;
 		}
 	}
 }

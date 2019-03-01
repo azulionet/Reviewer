@@ -36,6 +36,7 @@ namespace Reviewer.Global
 
 		Start, // 추가 특별 폴더는 Start, Finish 사이에 작업, Path에 파일이름 추가 필요
 		Log,
+		Study,
 		Finish,
 	}
 
@@ -214,12 +215,12 @@ namespace Reviewer.Global
 					
 					if (a_nData < (int)Global.eDate.AfterDateGap)
 					{
-						sStringFormat = Properties.Resources.sFixedDateForderAdd;
+						sStringFormat = System.IO.Path.Combine(Properties.Resources.sFolderName_Study, Properties.Resources.sFixedDateForderAdd);
 						a_nData -= (int)Global.eDate.FixedDateGap;
 					}
 					else
 					{
-						sStringFormat = Properties.Resources.sAfterDateFolderAdd;
+						sStringFormat = System.IO.Path.Combine(Properties.Resources.sFolderName_Study, Properties.Resources.sAfterDateFolderAdd);
 						a_nData -= (int)Global.eDate.AfterDateGap;
 					}
 
@@ -227,7 +228,8 @@ namespace Reviewer.Global
 				} break;
 				case eFolder.Start:		{ sName = Properties.Resources.sFolderName_Start; } break;
 				case eFolder.Log:		{ sName = Properties.Resources.sFolderName_Log; } break;
-				case eFolder.Finish:	{ sName = Properties.Resources.sFolderName_Finish; } break;
+				case eFolder.Study:		{ sName = Properties.Resources.sFolderName_Study; } break;
+				case eFolder.Finish:	{ sName = Properties.Resources.sFolderName_Finish; } break;			
 			}
 
 			if( string.IsNullOrEmpty(sName) == true )

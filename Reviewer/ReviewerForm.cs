@@ -200,6 +200,8 @@ namespace Reviewer
 				return;
 			}
 
+			ReviewMng.Ins.MoveFiles(m_liRemoveTemp);
+
 			foreach (var item in m_liRemoveTemp)
 			{
 				m_uiReviewList.Items.Remove(item);

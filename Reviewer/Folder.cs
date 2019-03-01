@@ -36,8 +36,9 @@ namespace Reviewer
 		{
 			m_eFolder				= a_eFolder;
 			m_nData					= a_nData;
-			m_sName					= Global.Path.FolderName(m_eFolder, m_nData);
-			m_sName_withFullPath	= System.IO.Path.Combine(Config.sFolderPath, m_sName);
+
+			m_sName = Global.Path.FolderName(m_eFolder, m_nData);
+			m_sName_withFullPath = System.IO.Path.Combine(Config.sFolderPath, m_sName);
 
 			if (string.IsNullOrEmpty(m_sName_withFullPath) == true) { Define.LogError("logic error"); return; }
 
