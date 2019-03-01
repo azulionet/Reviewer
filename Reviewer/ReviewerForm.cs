@@ -16,6 +16,8 @@ namespace Reviewer
 		}
 
 		Form m_DateForm = null;
+		Form m_HelpForm = null;
+
 		eState m_eState = eState.Wait;
 
 		Dictionary<int, File> m_mapStudyList = new Dictionary<int, File>();
@@ -330,7 +332,12 @@ namespace Reviewer
 
 		private void OnMenuEtc_Help_Click(object sender, EventArgs e)
 		{
+			if (m_HelpForm == null)
+			{
+				m_HelpForm = new HelpForm();
+			}
 
+			m_HelpForm.ShowDialog();
 		}
 	}
 }

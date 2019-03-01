@@ -65,6 +65,12 @@
     <Compile Include="Folder.cs" />
     <Compile Include="Global\Define.cs" />
     <Compile Include="Global\ExtensionMethod.cs" />
+    <Compile Include="HelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpForm.Designer.cs">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReviewDateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     <Compile Include="ThirdParty\LitJson\Lexer.cs" />
     <Compile Include="ThirdParty\LitJson\Netstandard15Polyfill.cs" />
     <Compile Include="ThirdParty\LitJson\ParserToken.cs" />
+    <EmbeddedResource Include="HelpForm.resx">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReviewDateForm.resx">
       <DependentUpon>ReviewDateForm.cs</DependentUpon>
     </EmbeddedResource>

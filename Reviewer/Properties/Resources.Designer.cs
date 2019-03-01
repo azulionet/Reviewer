@@ -133,6 +133,15 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   https://www.youtube.com/watch?v=tGykPqgKB4I&amp;t과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sExplainYotubeURL {
+            get {
+                return ResourceManager.GetString("sExplainYotubeURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _{0}일과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sFixedDateForderAdd {
@@ -219,6 +228,15 @@ namespace Reviewer.Properties {
         public static string sOK {
             get {
                 return ResourceManager.GetString("sOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   https://www.youtube.com/watch?v=tGykPqgKB4I&amp;t과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sOriginYoutubeURL {
+            get {
+                return ResourceManager.GetString("sOriginYoutubeURL", resourceCulture);
             }
         }
         
