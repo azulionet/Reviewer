@@ -205,6 +205,15 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   폴더를 먼저 선택해주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sNoReviewFolder {
+            get {
+                return ResourceManager.GetString("sNoReviewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   OK과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sOK {

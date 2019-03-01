@@ -69,11 +69,13 @@ namespace Reviewer
 			}
 
 			// 오늘 복습할 파일들 취합 
-			CollectTodayReviewFile();
+			_CollectTodayReviewFile();
 
 			return;
-			
-			void CollectTodayReviewFile()
+
+			#region LOCAL_FUNCTION
+
+			void _CollectTodayReviewFile()
 			{
 				m_liStudyList.Clear();
 
@@ -93,8 +95,10 @@ namespace Reviewer
 					}
 				}
 			}
+
+			#endregion LOCAL_FUNCTION
 		}
-		
+
 		public void ChangeDate(List<int> m_refAllDay)
 		{
 			if (Config.SetDate(m_refAllDay) == true)

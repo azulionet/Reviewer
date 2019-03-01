@@ -181,6 +181,10 @@
     <value>복습할 파일이 없습니다.</value>
     <comment>복습 파일이 없을 때</comment>
   </data>
+  <data name="sNoReviewFolder" xml:space="preserve">
+    <value>폴더를 먼저 선택해주세요.</value>
+    <comment>폴더가 선택이 안되있을때 특정 UI에서 호출</comment>
+  </data>
   <data name="sOK" xml:space="preserve">
     <value>OK</value>
     <comment>UI 버튼 OK</comment>

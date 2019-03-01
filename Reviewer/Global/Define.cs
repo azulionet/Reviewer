@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using LitJson;
 
 // 바로가기를 위함
@@ -101,7 +100,7 @@ namespace Reviewer.Global
 		{
 			var desktopDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 			DirectoryInfo info = new DirectoryInfo(desktopDir);
-			
+
 			string sFileName = info.FullName + "\\" + a_sMakeShortcutyName + ".lnk";
 
 			FileInfo fileInfo = new FileInfo(sFileName);
@@ -113,9 +112,28 @@ namespace Reviewer.Global
 				link.TargetPath = a_sOringinFileExecutablePath;
 				link.Save();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
-				Define.LogError(string.Format("Make Shortcut Error - {0}", ex.Message));
+				LogError(string.Format("Make Shortcut Error - {0}", ex.Message));
+			}
+		}
+
+		public static void ExecuteFile(string a_sFileName_withFullPath)
+		{
+			Process process = new Process();
+			ProcessStartInfo info = new ProcessStartInfo();
+			
+			info.UseShellExecute = true;
+			info.FileName = a_sFileName_withFullPath;
+			process.StartInfo = info;
+
+			try
+			{
+				process.Start();
+			}
+			catch (Exception Ex)
+			{
+				Define.LogError(Ex.Message);
 			}
 		}
 	}

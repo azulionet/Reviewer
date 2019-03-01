@@ -168,6 +168,8 @@ namespace Reviewer
 
 			// m_uiReviewList.Items.RemoveAt(0);
 
+			#region LOCAL_FUNCTION
+
 			void _ClearParentList()
 			{
 				m_liRemoveTemp.Clear();
@@ -227,6 +229,8 @@ namespace Reviewer
 					MessageBox.Show(Properties.Resources.sCongraturation);
 				}
 			}
+
+			#endregion LOCAL_FUNCTION
 		}
 
 		private void OnDateApplyButton_Click(object sender, EventArgs e)
@@ -269,6 +273,19 @@ namespace Reviewer
 			if (bStandByUIState == false) { return; }
 
 			Define.MakeShortCut(Properties.Resources.sShortcutExe, Application.ExecutablePath);
+		}
+
+		private void OnOpenStudyFolder_Click(object sender, EventArgs e)
+		{
+			if (bStandByUIState == false) { return; }
+			
+			if( Config.bIsSetting == false )
+			{
+				MessageBox.Show(Properties.Resources.sNoReviewFolder);
+				return;
+			}
+			
+			Define.ExecuteFile(Config.sFolderPath);
 		}
 	}
 }
