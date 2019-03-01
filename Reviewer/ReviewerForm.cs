@@ -129,13 +129,50 @@ namespace Reviewer
 
 			Config.SetFolderPath(sPath);
 			ReviewMng.Ins.ResearchFoldersAndFiles();
+		}
 
-			// 데일리 폴더들이 있다면 오른쪽에 표기 & 데이터 수집
-			// 없으면 냅도야지
+		bool m_bEventOpen = false;
+		private void OnReviewButton_Click(object sender, EventArgs e)
+		{
+			int nCount = m_uiReviewList.SelectedItems.Count;
+
+			if (nCount == 0)
+			{
+				MessageBox.Show(Properties.Resources.sReviewSelectFile);
+				return;
+			}
+			else if (nCount >= 2)
+			{
+				MessageBox.Show(Properties.Resources.sReviewSelectMuchFile);
+				return;
+			}
+
+			var file = m_uiReviewList.SelectedItem as File;
+
+			if (file == null)
+			{
+				MessageBox.Show(Properties.Resources.sReviewSelectFile);
+				return;
+			}
+
+			int nIndex = 0;
+
+			foreach (var item in m_uiReviewList.Items)
+			{
+				if (item == m_uiReviewList.SelectedItem) { break; }
+
+				++nIndex;
+			}
+
+			m_uiTextState.Text = Properties.Resources.sState_FileExecute;
+			eTimerEvent.StateText.Start(1500, () => { m_uiTextState.Text = Properties.Resources.sState_Default; });
+
+			m_bEventOpen = true;
+			m_uiReviewList.SetItemCheckState(nIndex, CheckState.Checked);
+			Define.ExecuteFile(file.m_sName_withFullPath);
 		}
 
 		List<object> m_liRemoveTemp = new List<object>();
-
 		private void OnReviewCompleteButton_Click(object sender, EventArgs e)
 		{
 			if (bStandByUIState == false) { return; }
@@ -171,8 +208,6 @@ namespace Reviewer
 			_ClearParentList();
 
 			return;
-
-			// m_uiReviewList.Items.RemoveAt(0);
 
 			#region LOCAL_FUNCTION
 
@@ -237,7 +272,7 @@ namespace Reviewer
 			// check 하는 것으론 버튼을 못 바꾸도록 수정 ( 복습 버튼을 눌러야만 체크가 됨 )
 			if( e.NewValue == CheckState.Indeterminate ) { return; }
 
-			if( bEventOpen == false )
+			if( m_bEventOpen == false )
 			{
 				switch (e.CurrentValue)
 				{
@@ -253,65 +288,9 @@ namespace Reviewer
 				}
 			}
 
-			bEventOpen = false;
-
-			/*
-
-			if ( e.CurrentValue == CheckState.Unchecked )
-			{
-				File file = m_uiReviewList.Items[e.Index] as File;
-
-				if (file != null)
-				{
-					
-					
-				}
-			}
-			
-			*/
+			m_bEventOpen = false;
 		}
-
-		bool bEventOpen = false;
-		private void OnReviewButton_Click(object sender, EventArgs e)
-		{
-			int nCount = m_uiReviewList.SelectedItems.Count;
-
-			if (nCount == 0)
-			{
-				MessageBox.Show(Properties.Resources.sReviewSelectFile);
-				return;
-			}
-			else if (nCount >= 2)
-			{
-				MessageBox.Show(Properties.Resources.sReviewSelectMuchFile);
-				return;
-			}
-
-			var file = m_uiReviewList.SelectedItem as File;
-
-			if (file == null)
-			{
-				MessageBox.Show(Properties.Resources.sReviewSelectFile);
-				return;
-			}
-
-			int nIndex = 0;
-
-			foreach( var item in m_uiReviewList.Items )
-			{
-				if( item == m_uiReviewList.SelectedItem ) { break; }
-
-				++nIndex;
-			}
-
-			m_uiTextState.Text = Properties.Resources.sState_FileExecute;
-			eTimerEvent.StateText.Start(1500, () => { m_uiTextState.Text = Properties.Resources.sState_Default; });
-
-			bEventOpen = true;
-			m_uiReviewList.SetItemCheckState(nIndex, CheckState.Checked);
-			Define.ExecuteFile(file.m_sName_withFullPath);
-		}
-
+		
 		// 이벤트 처리기 - 메뉴 ------------------------------------------------------------------------
 		private void OnMenu_Shortcut_ReviewFolder_Click(object sender, EventArgs e)
 		{

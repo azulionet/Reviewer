@@ -67,7 +67,7 @@
 			this.button1.Size = new System.Drawing.Size(196, 155);
 			this.button1.TabIndex = 6;
 			this.button1.TabStop = false;
-			this.button1.Text = "복습 완료";
+			this.button1.Text = "복습 완료 ( 파일이 이동합니다.  )";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.OnReviewCompleteButton_Click);
 			this.button1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
