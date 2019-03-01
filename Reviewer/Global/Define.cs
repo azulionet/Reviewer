@@ -118,7 +118,7 @@ namespace Reviewer.Global
 			}
 		}
 
-		public static void ExecuteFile(string a_sFileName_withFullPath)
+		public static Process ExecuteFile(string a_sFileName_withFullPath)
 		{
 			Process process = new Process();
 			ProcessStartInfo info = new ProcessStartInfo();
@@ -134,7 +134,10 @@ namespace Reviewer.Global
 			catch (Exception Ex)
 			{
 				Define.LogError(Ex.Message);
+				return null;
 			}
+
+			return process;
 		}
 	}
 

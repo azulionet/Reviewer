@@ -30,71 +30,58 @@
 		{
 			this.m_uiReviewList = new System.Windows.Forms.CheckedListBox();
 			this.button1 = new System.Windows.Forms.Button();
-			this.m_uiDateTime = new System.Windows.Forms.DateTimePicker();
-			this.button2 = new System.Windows.Forms.Button();
 			this.m_uiFolderTree = new System.Windows.Forms.TreeView();
 			this.button3 = new System.Windows.Forms.Button();
 			this.m_uiTextFolder = new System.Windows.Forms.TextBox();
 			this.m_uiTextState = new System.Windows.Forms.Label();
-			this.button4 = new System.Windows.Forms.Button();
-			this.button5 = new System.Windows.Forms.Button();
-			this.button6 = new System.Windows.Forms.Button();
-			this.button7 = new System.Windows.Forms.Button();
+			this.m_uiReview = new System.Windows.Forms.Button();
+			this.menuStrip2 = new System.Windows.Forms.MenuStrip();
+			this.m_menuFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuShortcut = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuShortcut_ReviewFolder = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuShortcut_ExeFile = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuEtc = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuEtc_DateSetting = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuEtc_OpenStudyFolder = new System.Windows.Forms.ToolStripMenuItem();
+			this.m_menuEtc_Help = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuStrip2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// m_uiReviewList
 			// 
 			this.m_uiReviewList.FormattingEnabled = true;
-			this.m_uiReviewList.Location = new System.Drawing.Point(18, 64);
+			this.m_uiReviewList.Location = new System.Drawing.Point(18, 87);
 			this.m_uiReviewList.Margin = new System.Windows.Forms.Padding(4);
 			this.m_uiReviewList.Name = "m_uiReviewList";
-			this.m_uiReviewList.Size = new System.Drawing.Size(287, 556);
-			this.m_uiReviewList.TabIndex = 0;
+			this.m_uiReviewList.Size = new System.Drawing.Size(287, 533);
+			this.m_uiReviewList.TabIndex = 2;
 			this.m_uiReviewList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnReviewList_ItemCheck);
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(333, 395);
+			this.button1.Location = new System.Drawing.Point(337, 298);
 			this.button1.Margin = new System.Windows.Forms.Padding(4);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(117, 63);
-			this.button1.TabIndex = 1;
-			this.button1.Text = "복습";
+			this.button1.Size = new System.Drawing.Size(196, 155);
+			this.button1.TabIndex = 6;
+			this.button1.Text = "복습 완료";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.OnReviewButton_Click);
 			// 
-			// m_uiDateTime
-			// 
-			this.m_uiDateTime.Location = new System.Drawing.Point(333, 69);
-			this.m_uiDateTime.Margin = new System.Windows.Forms.Padding(4);
-			this.m_uiDateTime.Name = "m_uiDateTime";
-			this.m_uiDateTime.Size = new System.Drawing.Size(472, 28);
-			this.m_uiDateTime.TabIndex = 2;
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(333, 117);
-			this.button2.Margin = new System.Windows.Forms.Padding(4);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(472, 38);
-			this.button2.TabIndex = 3;
-			this.button2.Text = "날짜 적용";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.OnDateApplyButton_Click);
-			// 
 			// m_uiFolderTree
 			// 
-			this.m_uiFolderTree.Location = new System.Drawing.Point(823, 64);
+			this.m_uiFolderTree.Location = new System.Drawing.Point(565, 87);
 			this.m_uiFolderTree.Name = "m_uiFolderTree";
-			this.m_uiFolderTree.Size = new System.Drawing.Size(312, 556);
-			this.m_uiFolderTree.TabIndex = 4;
+			this.m_uiFolderTree.Size = new System.Drawing.Size(312, 533);
+			this.m_uiFolderTree.TabIndex = 7;
 			// 
 			// button3
 			// 
-			this.button3.Location = new System.Drawing.Point(18, 11);
+			this.button3.Location = new System.Drawing.Point(12, 36);
 			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(287, 35);
-			this.button3.TabIndex = 6;
+			this.button3.Size = new System.Drawing.Size(137, 35);
+			this.button3.TabIndex = 0;
 			this.button3.Text = "폴더 설정";
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.OnFolderSettingButton_Click);
@@ -102,10 +89,10 @@
 			// m_uiTextFolder
 			// 
 			this.m_uiTextFolder.Enabled = false;
-			this.m_uiTextFolder.Location = new System.Drawing.Point(333, 16);
+			this.m_uiTextFolder.Location = new System.Drawing.Point(166, 43);
 			this.m_uiTextFolder.Name = "m_uiTextFolder";
-			this.m_uiTextFolder.Size = new System.Drawing.Size(662, 28);
-			this.m_uiTextFolder.TabIndex = 7;
+			this.m_uiTextFolder.Size = new System.Drawing.Size(711, 28);
+			this.m_uiTextFolder.TabIndex = 1;
 			// 
 			// m_uiTextState
 			// 
@@ -113,72 +100,118 @@
 			this.m_uiTextState.Location = new System.Drawing.Point(22, 631);
 			this.m_uiTextState.Name = "m_uiTextState";
 			this.m_uiTextState.Size = new System.Drawing.Size(35, 18);
-			this.m_uiTextState.TabIndex = 8;
+			this.m_uiTextState.TabIndex = 9;
 			this.m_uiTextState.Text = "---";
 			// 
-			// button4
+			// m_uiReview
 			// 
-			this.button4.Location = new System.Drawing.Point(333, 175);
-			this.button4.Margin = new System.Windows.Forms.Padding(4);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(472, 38);
-			this.button4.TabIndex = 10;
-			this.button4.Text = "날짜 세팅";
-			this.button4.UseVisualStyleBackColor = true;
-			this.button4.Click += new System.EventHandler(this.OnDateSettingButton_Click);
+			this.m_uiReview.Location = new System.Drawing.Point(337, 114);
+			this.m_uiReview.Name = "m_uiReview";
+			this.m_uiReview.Size = new System.Drawing.Size(196, 153);
+			this.m_uiReview.TabIndex = 5;
+			this.m_uiReview.Text = "복습";
+			this.m_uiReview.UseVisualStyleBackColor = true;
 			// 
-			// button5
+			// menuStrip2
 			// 
-			this.button5.Location = new System.Drawing.Point(333, 529);
-			this.button5.Margin = new System.Windows.Forms.Padding(4);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(236, 93);
-			this.button5.TabIndex = 11;
-			this.button5.Text = "바탕화면에 복습시작 폴더 바로가기 만들기";
-			this.button5.UseVisualStyleBackColor = true;
-			this.button5.Click += new System.EventHandler(this.OnCreateShortCutButton_Click);
+			this.menuStrip2.ImageScalingSize = new System.Drawing.Size(24, 24);
+			this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_menuFile,
+            this.m_menuShortcut,
+            this.m_menuEtc});
+			this.menuStrip2.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip2.Name = "menuStrip2";
+			this.menuStrip2.Size = new System.Drawing.Size(898, 33);
+			this.menuStrip2.TabIndex = 8;
+			this.menuStrip2.Text = "menuStrip2";
 			// 
-			// button6
+			// m_menuFile
 			// 
-			this.button6.Location = new System.Drawing.Point(577, 529);
-			this.button6.Margin = new System.Windows.Forms.Padding(4);
-			this.button6.Name = "button6";
-			this.button6.Size = new System.Drawing.Size(228, 91);
-			this.button6.TabIndex = 12;
-			this.button6.Text = "바탕화면에 실행파일 바로가기 만들기";
-			this.button6.UseVisualStyleBackColor = true;
-			this.button6.Click += new System.EventHandler(this.OnCreateExeShortCutButton_Click);
+			this.m_menuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_menuFile_Exit});
+			this.m_menuFile.Name = "m_menuFile";
+			this.m_menuFile.Size = new System.Drawing.Size(51, 29);
+			this.m_menuFile.Text = "File";
 			// 
-			// button7
+			// m_menuFile_Exit
 			// 
-			this.button7.Location = new System.Drawing.Point(1019, 11);
-			this.button7.Name = "button7";
-			this.button7.Size = new System.Drawing.Size(116, 35);
-			this.button7.TabIndex = 13;
-			this.button7.Text = "공부 폴더 열기";
-			this.button7.UseVisualStyleBackColor = true;
-			this.button7.Click += new System.EventHandler(this.OnOpenStudyFolder_Click);
+			this.m_menuFile_Exit.Name = "m_menuFile_Exit";
+			this.m_menuFile_Exit.Size = new System.Drawing.Size(150, 30);
+			this.m_menuFile_Exit.Text = "끝내기";
+			this.m_menuFile_Exit.Click += new System.EventHandler(this.OnMenu_File_Exit_Click);
+			// 
+			// m_menuShortcut
+			// 
+			this.m_menuShortcut.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_menuShortcut_ReviewFolder,
+            this.m_menuShortcut_ExeFile});
+			this.m_menuShortcut.Name = "m_menuShortcut";
+			this.m_menuShortcut.Size = new System.Drawing.Size(156, 29);
+			this.m_menuShortcut.Text = "바로가기 만들기";
+			// 
+			// m_menuShortcut_ReviewFolder
+			// 
+			this.m_menuShortcut_ReviewFolder.Name = "m_menuShortcut_ReviewFolder";
+			this.m_menuShortcut_ReviewFolder.Size = new System.Drawing.Size(372, 30);
+			this.m_menuShortcut_ReviewFolder.Text = "바탕화면에 복습 시작 폴더 만들기";
+			this.m_menuShortcut_ReviewFolder.Click += new System.EventHandler(this.OnMenu_Shortcut_ReviewFolder_Click);
+			// 
+			// m_menuShortcut_ExeFile
+			// 
+			this.m_menuShortcut_ExeFile.Name = "m_menuShortcut_ExeFile";
+			this.m_menuShortcut_ExeFile.Size = new System.Drawing.Size(372, 30);
+			this.m_menuShortcut_ExeFile.Text = "바탕화면에 실행 파일 만들기";
+			this.m_menuShortcut_ExeFile.Click += new System.EventHandler(this.OnMenu_Shortcut_ExeFile_Click);
+			// 
+			// m_menuEtc
+			// 
+			this.m_menuEtc.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_menuEtc_DateSetting,
+            this.m_menuEtc_OpenStudyFolder,
+            this.m_menuEtc_Help});
+			this.m_menuEtc.Name = "m_menuEtc";
+			this.m_menuEtc.Size = new System.Drawing.Size(126, 29);
+			this.m_menuEtc.Text = "기타 & 도움말";
+			// 
+			// m_menuEtc_DateSetting
+			// 
+			this.m_menuEtc_DateSetting.Name = "m_menuEtc_DateSetting";
+			this.m_menuEtc_DateSetting.Size = new System.Drawing.Size(216, 30);
+			this.m_menuEtc_DateSetting.Text = "날짜 세팅";
+			this.m_menuEtc_DateSetting.Click += new System.EventHandler(this.OnMenuEtc_DateSetting_Click);
+			// 
+			// m_menuEtc_OpenStudyFolder
+			// 
+			this.m_menuEtc_OpenStudyFolder.Name = "m_menuEtc_OpenStudyFolder";
+			this.m_menuEtc_OpenStudyFolder.Size = new System.Drawing.Size(216, 30);
+			this.m_menuEtc_OpenStudyFolder.Text = "공부 폴더 열기";
+			this.m_menuEtc_OpenStudyFolder.Click += new System.EventHandler(this.OnMenuEtc_OpenStudyFolder_Click);
+			// 
+			// m_menuEtc_Help
+			// 
+			this.m_menuEtc_Help.Name = "m_menuEtc_Help";
+			this.m_menuEtc_Help.Size = new System.Drawing.Size(216, 30);
+			this.m_menuEtc_Help.Text = "도움말";
+			this.m_menuEtc_Help.Click += new System.EventHandler(this.OnMenuEtc_Help_Click);
 			// 
 			// ReviewerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1160, 661);
-			this.Controls.Add(this.button7);
-			this.Controls.Add(this.button6);
-			this.Controls.Add(this.button5);
-			this.Controls.Add(this.button4);
+			this.ClientSize = new System.Drawing.Size(898, 661);
+			this.Controls.Add(this.m_uiReview);
 			this.Controls.Add(this.m_uiTextState);
 			this.Controls.Add(this.m_uiTextFolder);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.m_uiFolderTree);
-			this.Controls.Add(this.button2);
-			this.Controls.Add(this.m_uiDateTime);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.m_uiReviewList);
+			this.Controls.Add(this.menuStrip2);
 			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "ReviewerForm";
 			this.Text = "Reviewer";
+			this.menuStrip2.ResumeLayout(false);
+			this.menuStrip2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -188,16 +221,21 @@
 
 		private System.Windows.Forms.CheckedListBox m_uiReviewList;
 		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.DateTimePicker m_uiDateTime;
-		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.TreeView m_uiFolderTree;
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.TextBox m_uiTextFolder;
 		private System.Windows.Forms.Label m_uiTextState;
-		private System.Windows.Forms.Button button4;
-		private System.Windows.Forms.Button button5;
-		private System.Windows.Forms.Button button6;
-		private System.Windows.Forms.Button button7;
+		private System.Windows.Forms.Button m_uiReview;
+		private System.Windows.Forms.MenuStrip menuStrip2;
+		private System.Windows.Forms.ToolStripMenuItem m_menuFile;
+		private System.Windows.Forms.ToolStripMenuItem m_menuShortcut;
+		private System.Windows.Forms.ToolStripMenuItem m_menuFile_Exit;
+		private System.Windows.Forms.ToolStripMenuItem m_menuShortcut_ReviewFolder;
+		private System.Windows.Forms.ToolStripMenuItem m_menuShortcut_ExeFile;
+		private System.Windows.Forms.ToolStripMenuItem m_menuEtc;
+		private System.Windows.Forms.ToolStripMenuItem m_menuEtc_DateSetting;
+		private System.Windows.Forms.ToolStripMenuItem m_menuEtc_OpenStudyFolder;
+		private System.Windows.Forms.ToolStripMenuItem m_menuEtc_Help;
 	}
 }
 

@@ -1,7 +1,9 @@
 ﻿using Reviewer.Global;
 using System;
+using System.Text;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Reviewer
 {
@@ -77,7 +79,11 @@ namespace Reviewer
 					{
 						temp = file.m_refParent;
 
-						m_uiReviewList.Items.Add(temp.m_sName, CheckState.Indeterminate);
+						StringBuilder sPrint = new StringBuilder("---------- ");
+						sPrint.Append(temp.m_sName);
+						sPrint.Append(" ----------");
+						
+						m_uiReviewList.Items.Add(sPrint, CheckState.Indeterminate);
 						++nIndex;
 					}
 
@@ -88,7 +94,7 @@ namespace Reviewer
 			}
 		}
 
-		// 이벤트 처리기
+		// 이벤트 처리기 ------------------------------------------------------------------------
 		private void OnFolderSettingButton_Click(object sender, EventArgs e)
 		{
 			if (bStandByUIState == false) { return; }
@@ -233,13 +239,71 @@ namespace Reviewer
 			#endregion LOCAL_FUNCTION
 		}
 
-		private void OnDateApplyButton_Click(object sender, EventArgs e)
+		private void OnReviewList_ItemCheck(object sender, ItemCheckEventArgs e)
+		{
+			// check 하는 것으론 버튼을 못 바꾸도록 수정 ( 복습 버튼을 눌러야만 체크가 됨 )
+			if( e.NewValue == CheckState.Indeterminate ) { return; }
+
+			switch (e.CurrentValue)
+			{
+				case CheckState.Unchecked:
+					e.NewValue = CheckState.Unchecked;
+					break;
+				case CheckState.Checked:
+					e.NewValue = CheckState.Checked;
+					break;
+ 				case CheckState.Indeterminate:
+ 					e.NewValue = CheckState.Indeterminate;
+ 					break;
+			}
+
+			/*
+
+			if ( e.CurrentValue == CheckState.Unchecked )
+			{
+				File file = m_uiReviewList.Items[e.Index] as File;
+
+				if (file != null)
+				{
+					if( m_mapRunningFile.ContainsKey(file) == false )
+					{
+
+					}
+
+
+					p = Define.ExecuteFile(file.m_sName_withFullPath);
+
+					m_mapRunningFile.Add(file, p);
+					
+				}
+			}
+			
+			*/
+		}
+
+		// 이벤트 처리기 - 메뉴 ------------------------------------------------------------------------
+		private void OnMenu_Shortcut_ReviewFolder_Click(object sender, EventArgs e)
+		{
+			if (bStandByUIState == false) { return; }
+			if (Config.bIsSetting == false) { return; }
+
+			string sStartName = ReviewMng.Ins.m_mapSpecialFolder[eFolder.Start].m_sName_withFullPath;
+			Define.MakeShortCut(Properties.Resources.sShortcutStartReview, sStartName);
+		}
+
+		private void OnMenu_Shortcut_ExeFile_Click(object sender, EventArgs e)
 		{
 			if (bStandByUIState == false) { return; }
 
+			Define.MakeShortCut(Properties.Resources.sShortcutExe, Application.ExecutablePath);
 		}
 
-		private void OnDateSettingButton_Click(object sender, EventArgs e)
+		private void OnMenu_File_Exit_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void OnMenuEtc_DateSetting_Click(object sender, EventArgs e)
 		{
 			if (bStandByUIState == false) { return; }
 
@@ -251,41 +315,22 @@ namespace Reviewer
 			m_DateForm.ShowDialog();
 		}
 
-		private void OnReviewList_ItemCheck(object sender, ItemCheckEventArgs e)
-		{
-			if (e.CurrentValue == CheckState.Indeterminate) // 구분선은 클릭되지 않도록 수정
-			{
-				e.NewValue = CheckState.Indeterminate;
-			}
-		}
-
-		private void OnCreateShortCutButton_Click(object sender, EventArgs e)
-		{
-			if (bStandByUIState == false) { return; }
-			if (Config.bIsSetting == false) { return; }
-
-			string sStartName = ReviewMng.Ins.m_mapSpecialFolder[eFolder.Start].m_sName_withFullPath;
-			Define.MakeShortCut(Properties.Resources.sShortcutStartReview, sStartName);
-		}
-
-		private void OnCreateExeShortCutButton_Click(object sender, EventArgs e)
+		private void OnMenuEtc_OpenStudyFolder_Click(object sender, EventArgs e)
 		{
 			if (bStandByUIState == false) { return; }
 
-			Define.MakeShortCut(Properties.Resources.sShortcutExe, Application.ExecutablePath);
-		}
-
-		private void OnOpenStudyFolder_Click(object sender, EventArgs e)
-		{
-			if (bStandByUIState == false) { return; }
-			
-			if( Config.bIsSetting == false )
+			if (Config.bIsSetting == false)
 			{
 				MessageBox.Show(Properties.Resources.sNoReviewFolder);
 				return;
 			}
-			
+
 			Define.ExecuteFile(Config.sFolderPath);
+		}
+
+		private void OnMenuEtc_Help_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
