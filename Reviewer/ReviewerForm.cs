@@ -64,6 +64,8 @@ namespace Reviewer
 		void PrintStudyList()
 		{
 			m_uiReviewList.Items.Clear();
+			m_mapStudyList.Clear();
+
 			var list = ReviewMng.Ins.m_liStudyList;
 			int nIndex = 0;
 
@@ -200,8 +202,11 @@ namespace Reviewer
 				return;
 			}
 
-			if( ReviewMng.Ins.MoveFiles(m_liRemoveTemp) == true )
-			
+			if( ReviewMng.Ins.MoveFiles(m_liRemoveTemp) == false )
+			{
+				Define.LogError("file execption occured or logic error");
+			}
+
 			PrintStudyList();
 
 			if (m_uiReviewList.Items.Count == 1) // 폴더 - 파일 이기 때문에 최소 2개. 1개라면 안내용문구 일때
