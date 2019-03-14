@@ -30,7 +30,6 @@
 		{
 			this.m_uiReviewList = new System.Windows.Forms.CheckedListBox();
 			this.button1 = new System.Windows.Forms.Button();
-			this.m_uiFolderTree = new System.Windows.Forms.TreeView();
 			this.button3 = new System.Windows.Forms.Button();
 			this.m_uiTextFolder = new System.Windows.Forms.TextBox();
 			this.m_uiTextState = new System.Windows.Forms.Label();
@@ -72,13 +71,6 @@
 			this.button1.Click += new System.EventHandler(this.OnReviewCompleteButton_Click);
 			this.button1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
 			// 
-			// m_uiFolderTree
-			// 
-			this.m_uiFolderTree.Location = new System.Drawing.Point(565, 87);
-			this.m_uiFolderTree.Name = "m_uiFolderTree";
-			this.m_uiFolderTree.Size = new System.Drawing.Size(312, 533);
-			this.m_uiFolderTree.TabIndex = 7;
-			// 
 			// button3
 			// 
 			this.button3.Location = new System.Drawing.Point(12, 36);
@@ -96,7 +88,7 @@
 			this.m_uiTextFolder.Enabled = false;
 			this.m_uiTextFolder.Location = new System.Drawing.Point(166, 43);
 			this.m_uiTextFolder.Name = "m_uiTextFolder";
-			this.m_uiTextFolder.Size = new System.Drawing.Size(711, 28);
+			this.m_uiTextFolder.Size = new System.Drawing.Size(369, 28);
 			this.m_uiTextFolder.TabIndex = 1;
 			this.m_uiTextFolder.TabStop = false;
 			// 
@@ -130,7 +122,7 @@
             this.m_menuEtc});
 			this.menuStrip2.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip2.Name = "menuStrip2";
-			this.menuStrip2.Size = new System.Drawing.Size(898, 33);
+			this.menuStrip2.Size = new System.Drawing.Size(551, 33);
 			this.menuStrip2.TabIndex = 8;
 			this.menuStrip2.Text = "menuStrip2";
 			// 
@@ -207,12 +199,11 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(898, 661);
+			this.ClientSize = new System.Drawing.Size(551, 661);
 			this.Controls.Add(this.m_uiReview);
 			this.Controls.Add(this.m_uiTextState);
 			this.Controls.Add(this.m_uiTextFolder);
 			this.Controls.Add(this.button3);
-			this.Controls.Add(this.m_uiFolderTree);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.m_uiReviewList);
 			this.Controls.Add(this.menuStrip2);
@@ -230,7 +221,6 @@
 
 		private System.Windows.Forms.CheckedListBox m_uiReviewList;
 		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.TreeView m_uiFolderTree;
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.TextBox m_uiTextFolder;
 		private System.Windows.Forms.Label m_uiTextState;

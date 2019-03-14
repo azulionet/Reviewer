@@ -82,7 +82,7 @@ namespace Reviewer
 						temp = file.m_refParent;
 
 						StringBuilder sPrint = new StringBuilder("---------- ");
-						sPrint.Append(temp.m_sName);
+						sPrint.Append(temp.sUIName);
 						sPrint.Append(" ----------");
 						
 						m_uiReviewList.Items.Add(sPrint, CheckState.Indeterminate);
@@ -169,7 +169,7 @@ namespace Reviewer
 
 			m_bEventOpen = true;
 			m_uiReviewList.SetItemCheckState(nIndex, CheckState.Checked);
-			Define.ExecuteFile(file.m_sName_withFullPath);
+			Define.ExecuteFile(file.sName_withFullPath);
 		}
 
 		List<object> m_liRemoveTemp = new List<object>();
@@ -200,73 +200,14 @@ namespace Reviewer
 				return;
 			}
 
-			ReviewMng.Ins.MoveFiles(m_liRemoveTemp);
+			if( ReviewMng.Ins.MoveFiles(m_liRemoveTemp) == true )
+			
+			PrintStudyList();
 
-			foreach (var item in m_liRemoveTemp)
+			if (m_uiReviewList.Items.Count == 1) // 폴더 - 파일 이기 때문에 최소 2개. 1개라면 안내용문구 일때
 			{
-				m_uiReviewList.Items.Remove(item);
+				MessageBox.Show(Properties.Resources.sCongraturation_FinishDailyReview);
 			}
-
-			_ClearParentList();
-
-			return;
-
-			#region LOCAL_FUNCTION
-
-			void _ClearParentList()
-			{
-				m_liRemoveTemp.Clear();
-
-				var _Items = m_uiReviewList.CheckedItems;
-
-				if( _Items.Count == 0 ) { return; }
-
-				if( m_uiReviewList.Items.Count == 1 &&
-					m_uiReviewList.CheckedItems.Count == 1 )
-				{
-					m_liRemoveTemp.Add(m_uiReviewList.Items[0]);
-				}
-
-				var _list = m_uiReviewList.Items;
-
-				object before = null;
-
-				foreach (var _item in _list)
-				{
-					if (before == null)
-					{
-						if ((_item is File) == false)
-						{
-							before = _item;
-							continue;
-						}
-					}
-					else
-					{
-						if ((_item is File) == false)
-						{
-							m_liRemoveTemp.Add(_item);
-							before = _item;
-						}
-						else
-						{
-							before = null;
-						}
-					}
-				}
-
-				foreach (var _item in m_liRemoveTemp)
-				{
-					m_uiReviewList.Items.Remove(_item);
-				}
-
-				if( m_uiReviewList.Items.Count == 0 )
-				{
-					MessageBox.Show(Properties.Resources.sCongraturation);
-				}
-			}
-
-			#endregion LOCAL_FUNCTION
 		}
 
 		private void OnReviewList_ItemCheck(object sender, ItemCheckEventArgs e)

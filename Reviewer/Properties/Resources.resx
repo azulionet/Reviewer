@@ -125,9 +125,13 @@
     <value>CANCEL</value>
     <comment>UI 버튼 Cancel</comment>
   </data>
-  <data name="sCongraturation" xml:space="preserve">
-    <value>모든 복습을 마쳤습니다!</value>
+  <data name="sCongraturation_FinishDailyReview" xml:space="preserve">
+    <value>오늘 모든 복습을 마쳤습니다!</value>
     <comment>복습 완료시 뜨는 문구</comment>
+  </data>
+  <data name="sCongraturation_FinishReviewFile" xml:space="preserve">
+    <value>축하합니다! {0} 파일의 긴 복습의 기간을 마쳤습니다!</value>
+    <comment>복습완료 축하 메시지</comment>
   </data>
   <data name="sDateStringDuplicated" xml:space="preserve">
     <value>문자열에 중복된 값이 있습니다.</value>
@@ -149,6 +153,10 @@
     <value>https://www.youtube.com/watch?v=tGykPqgKB4I&amp;t</value>
     <comment>설명영상 링크 주소</comment>
   </data>
+  <data name="sFixedDateFoderAdd_UI" xml:space="preserve">
+    <value>{0}일</value>
+    <comment>UI에 표기될 파일이름</comment>
+  </data>
   <data name="sFixedDateForderAdd" xml:space="preserve">
     <value>_{0}일</value>
     <comment>고정 날짜 폴더 이름</comment>
@@ -159,10 +167,6 @@
   </data>
   <data name="sFolderName_Finish" xml:space="preserve">
     <value>Finish</value>
-    <comment>폴더명</comment>
-  </data>
-  <data name="sFolderName_Log" xml:space="preserve">
-    <value>Log</value>
     <comment>폴더명</comment>
   </data>
   <data name="sFolderName_Start" xml:space="preserve">
@@ -188,6 +192,10 @@
   <data name="sNoReviewFolder" xml:space="preserve">
     <value>폴더를 먼저 선택해주세요.</value>
     <comment>폴더가 선택이 안되있을때 특정 UI에서 호출</comment>
+  </data>
+  <data name="sNotMatchedFileName" xml:space="preserve">
+    <value>{0} : 파일 이름이 형식에 맞지 않습니다.</value>
+    <comment>폴더에 잘못된 이름의 파일이 있을때</comment>
   </data>
   <data name="sOK" xml:space="preserve">
     <value>OK</value>

@@ -11,6 +11,11 @@ using LitJson;
 using IWshRuntimeLibrary; // COM의 Windows Script Host Object Model 참조 필요, 참조 설정 Interop 형식 true -> false로 해야함
 using System.Windows.Forms;
 
+
+/* todo list
+ * 문자열 전부 리소스로 빼야함
+*/
+
 // 대다수의 클래스는 멀티쓰레드에서 사용하는 걸 고려하지 않고 제작
 namespace Reviewer.Global
 {
@@ -35,7 +40,6 @@ namespace Reviewer.Global
 		UnmatchDate, // 컨피그 파일이 바뀌어 컨피그 외의 날짜가 들어있는 폴더		
 
 		Start, // 추가 특별 폴더는 Start, Finish 사이에 작업, Path에 파일이름 추가 필요
-		Log,
 		Study,
 		Finish,
 	}
@@ -187,10 +191,9 @@ namespace Reviewer.Global
 		// 사용 파일
 		public const string sConfigFile		= "Config.json";
 		public const string sLogFile		= "ToolLog.txt";
-		public const string sToolLogFile	= "ToolLog.txt";
 
 		// 파일 구분자
-		const string sNameSeperator			= "@@";
+		const char chNameSeperator			= '@';
 		
 		static Path()
 		{
@@ -227,7 +230,6 @@ namespace Reviewer.Global
 					sName = string.Format(sStringFormat, a_nData); // _{0}일, {0}일 후
 				} break;
 				case eFolder.Start:		{ sName = Properties.Resources.sFolderName_Start; } break;
-				case eFolder.Log:		{ sName = Properties.Resources.sFolderName_Log; } break;
 				case eFolder.Study:		{ sName = Properties.Resources.sFolderName_Study; } break;
 				case eFolder.Finish:	{ sName = Properties.Resources.sFolderName_Finish; } break;			
 			}
@@ -248,7 +250,13 @@ namespace Reviewer.Global
 			switch (a_eFile)
 			{
 				case eDocumentFile.Config:	{ sTemp = sConfigFile; } break;
-				case eDocumentFile.Log:		{ sTemp = sLogFile; } break;
+				case eDocumentFile.Log:
+				{
+					sTemp += "[";
+					sTemp += DateTime.Now.ToShortDateString();
+					sTemp += "]";
+					sTemp += sLogFile;
+				} break;
 
 				default:					{ Define.LogError("arg error"); return string.Empty; }
 			}
@@ -259,19 +267,87 @@ namespace Reviewer.Global
 		public static bool IsMatchingReviewFileFormat(string a_sFileName)
 		{
 			// 파일 이름 포맷
-			// filename@@0000@@2019-10-10@@2019-10-11.ext
+			// filename@0000@2019-10-10@2019-10-11.ext
 			// filename	: 말 그대로 파일이름
-			// @@		: 구분자로 사용
+			// @		: 구분자로 사용
 			// 0000		: 복습을 한 횟수
-			// @@		: 구분자
+			// @		: 구분자
 			// 년-월-일	: DateTime.ToShortDateString() 의 포맷, 복습 시작 날짜
-			// @@		: 구분자
-			// 년-월-일	: 마지막 복습일
+			// @		: 구분자
+			// 년-월-일	: 복습해야되는 날짜
 			// .ext		: 해당 파일 확장자
 
 			// 실제 파일이름이 올것이기 때문에 파일 이름에 대한 체크는 하지 않아도 됨
 
-			return Regex.IsMatch(a_sFileName, "@@[0-9]{4}@@[0-9]{4}-[0-9]{2}-[0-9]{2}@@[0-9]{4}-[0-9]{2}-[0-9]{2}");
+			return Regex.IsMatch(a_sFileName, "@[0-9]{4}@[0-9]{4}-[0-9]{2}-[0-9]{2}@[0-9]{4}-[0-9]{2}-[0-9]{2}");
+		}
+
+		public static ReviewFile ParsingReviewFileData(string a_sFileName)
+		{
+			if( IsMatchingReviewFileFormat(a_sFileName) == false ) { return null; }
+
+			ReviewFile reviewData = new ReviewFile();
+
+			var arName = a_sFileName.Split(chNameSeperator);
+			int nLen = arName.Length;
+
+			// 파일명에 @가 포함되있을 경우를 고려해 마지막부터 파싱
+			// 구분자 이후 마지막 문자열 : 확장자 + 마지막 복습일
+			string s = arName[nLen-1];
+
+			reviewData.m_sReviewDate = System.IO.Path.GetFileNameWithoutExtension(s);
+			reviewData.m_sExtension = System.IO.Path.GetExtension(s);
+
+			// 그 이전 문자열 : 공부 시작일
+			s = arName[nLen-2];
+			reviewData.m_sStartDate = s;
+
+			// 그 이전 : 공부한 횟수
+			s = arName[nLen-3];
+			reviewData.m_nStudyCount = int.Parse(s);
+
+			// 파일명
+			s = arName[nLen-4];
+			reviewData.m_sName_NoExt = s;
+			
+			return reviewData;
+		}
+
+		public static ReviewFile MakeReviewFileData(string a_sFileName, int a_nDateOffset)
+		{
+			StringBuilder s = new StringBuilder();
+
+			s.Append(System.IO.Path.GetFileNameWithoutExtension(a_sFileName));
+			s.Append(chNameSeperator);
+			s.Append(string.Format("{0:0000}", 1));
+			s.Append(chNameSeperator);
+			s.Append(DateTime.Now.ToShortDateString());
+			s.Append(chNameSeperator);
+
+			var date = DateTime.Now + new TimeSpan(a_nDateOffset, 0, 0, 0);
+
+			s.Append(date.ToShortDateString());
+			s.Append(System.IO.Path.GetExtension(a_sFileName));
+
+			return ParsingReviewFileData(s.ToString());
+		}
+
+		public static string GetReviewFileName(ReviewFile a_refData)
+		{
+			if( a_refData == null ) { Define.LogError("arg error"); return string.Empty; }
+
+			StringBuilder s = new StringBuilder();
+
+			s.Append(System.IO.Path.GetFileNameWithoutExtension(a_refData.m_sName_NoExt));
+			s.Append(chNameSeperator);
+			s.Append(string.Format("{0:0000}", a_refData.m_nStudyCount));
+			s.Append(chNameSeperator);
+			s.Append(a_refData.m_sStartDate);
+			s.Append(chNameSeperator);
+			s.Append(a_refData.m_sReviewDate);
+			s.Append(a_refData.m_sExtension);
+
+			return s.ToString();
 		}
 	}
 
@@ -455,6 +531,17 @@ namespace Reviewer.Global
 	}
 
 	// 구조체성 클래스
+	public class ReviewFile
+	{
+		public string	m_sName_NoExt;
+		public string	m_sExtension;
+		public int		m_nStudyCount;
+		public string	m_sStartDate;	// DateTime.ToShortDateString();
+		public string	m_sReviewDate;  // DateTime.ToShortDateString();
+
+		public string	sName => Path.GetReviewFileName(this);
+	}
+
 	public class ConfigData
 	{
 		public string sDateString = string.Empty;

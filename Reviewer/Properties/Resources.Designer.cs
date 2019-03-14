@@ -79,11 +79,20 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
-        ///   모든 복습을 마쳤습니다!과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   오늘 모든 복습을 마쳤습니다!과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        public static string sCongraturation {
+        public static string sCongraturation_FinishDailyReview {
             get {
-                return ResourceManager.GetString("sCongraturation", resourceCulture);
+                return ResourceManager.GetString("sCongraturation_FinishDailyReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   축하합니다! {0} 파일의 긴 복습의 기간을 마쳤습니다!과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sCongraturation_FinishReviewFile {
+            get {
+                return ResourceManager.GetString("sCongraturation_FinishReviewFile", resourceCulture);
             }
         }
         
@@ -133,6 +142,15 @@ namespace Reviewer.Properties {
         }
         
         /// <summary>
+        ///   {0}일과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sFixedDateFoderAdd_UI {
+            get {
+                return ResourceManager.GetString("sFixedDateFoderAdd_UI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _{0}일과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         public static string sFixedDateForderAdd {
@@ -156,15 +174,6 @@ namespace Reviewer.Properties {
         public static string sFolderName_Finish {
             get {
                 return ResourceManager.GetString("sFolderName_Finish", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Log과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string sFolderName_Log {
-            get {
-                return ResourceManager.GetString("sFolderName_Log", resourceCulture);
             }
         }
         
@@ -219,6 +228,15 @@ namespace Reviewer.Properties {
         public static string sNoReviewFolder {
             get {
                 return ResourceManager.GetString("sNoReviewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} : 파일 이름이 형식에 맞지 않습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        public static string sNotMatchedFileName {
+            get {
+                return ResourceManager.GetString("sNotMatchedFileName", resourceCulture);
             }
         }
         
