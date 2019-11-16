@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Reviewer
@@ -30,13 +23,14 @@ namespace Reviewer
 
 			string s = e.Link.LinkData as string;
 
-			if (string.IsNullOrEmpty(s) == false && s.StartsWith("www"))
+			if (string.IsNullOrEmpty(s) == false &&
+                Uri.IsWellFormedUriString(s, UriKind.Absolute) == true )
 			{
 				System.Diagnostics.Process.Start(s);
 			}
 			else
 			{
-				Global.Define.LogError("logic error");
+				Global.Define.LogError("resource error");
 			}
 		}
 	}

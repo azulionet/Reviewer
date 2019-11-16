@@ -3,7 +3,6 @@ using System;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Reviewer
 {
@@ -46,11 +45,6 @@ namespace Reviewer
 			// 상태 ㅇㅋ
 			m_eState = eState.StandBy;
 			m_uiTextState.Text = Properties.Resources.sState_Default;
-
-			// m_uiReviewList.Items.Add("1");
-			// m_uiReviewList.Items.Add("2");
-			// m_uiReviewList.Items.Add("3");
-			// m_uiReviewList.Items.Add("-----------------------", CheckState.Indeterminate);
 
 			PrintStudyList();
 		}

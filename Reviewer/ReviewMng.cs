@@ -5,273 +5,273 @@ using System.Windows.Forms;
 
 namespace Reviewer
 {
-	public class ReviewMng
-	{
-		#region SINGLETON
+    public class ReviewMng
+    {
+        #region SINGLETON
 
-		private static ReviewMng m_Instance = null;
+        private static ReviewMng m_Instance = null;
 
-		public static ReviewMng Ins
-		{
-			get
-			{
-				if (m_Instance == null)
-				{
-					m_Instance = new ReviewMng();
-				}
+        public static ReviewMng Ins
+        {
+            get
+            {
+                if (m_Instance == null)
+                {
+                    m_Instance = new ReviewMng();
+                }
 
-				return m_Instance;
-			}
-		}
+                return m_Instance;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		public Form							m_refMainForm = null;
-		public List<Folder>					m_liDateFolder = new List<Folder>();
-		public Dictionary<eFolder, Folder>	m_mapSpecialFolder = new Dictionary<eFolder, Folder>();
+        public Form m_refMainForm = null;
+        public List<Folder> m_liDateFolder = new List<Folder>();
+        public Dictionary<eFolder, Folder> m_mapSpecialFolder = new Dictionary<eFolder, Folder>();
 
-		public LinkedList<File>				m_liStudyList = new LinkedList<File>();
+        public LinkedList<File> m_liStudyList = new LinkedList<File>();
 
-		public bool bInit { get; private set; } = false;
+        public bool bInit { get; private set; } = false;
 
-		public int nMaxDateOffset
-		{
-			get
-			{
-				if( m_liDateFolder.Count == 0 )
-				{
-					return 0;
-				}
-				else if( m_liDateFolder.Count == 1 )
-				{
-					return m_liDateFolder[0].m_nDateOffset;
-				}
+        public int nMaxDateOffset
+        {
+            get
+            {
+                if (m_liDateFolder.Count == 0)
+                {
+                    return 0;
+                }
+                else if (m_liDateFolder.Count == 1)
+                {
+                    return m_liDateFolder[0].m_nDateOffset;
+                }
 
-				return m_liDateFolder[m_liDateFolder.Count-1].m_nDateOffset - m_liDateFolder[0].m_nDateOffset;
-			}
-		}
+                return m_liDateFolder[m_liDateFolder.Count - 1].m_nDateOffset - m_liDateFolder[0].m_nDateOffset;
+            }
+        }
 
-		public void Init(Form a_refForm)
-		{
-			// Step 0. 폼 등록
-			m_refMainForm = a_refForm;
+        public void Init(Form a_refForm)
+        {
+            // Step 0. 폼 등록
+            m_refMainForm = a_refForm;
 
-			// Step 1. 컨피그 파일 초기화
-			Global.Config.Init();
-			
-			// Step 2. (컨피그에 폴더 세팅이 되있다면) 폴더가 없다면 생성, 있다면 파일들을 취합 
-			ResearchFoldersAndFiles();
+            // Step 1. 컨피그 파일 초기화
+            Global.Config.Init();
 
-			bInit = true;
-		}
+            // Step 2. (컨피그에 폴더 세팅이 되있다면) 폴더가 없다면 생성, 있다면 파일들을 취합 
+            ResearchFoldersAndFiles();
 
-		public void ResearchFoldersAndFiles()
-		{
-			if (Config.bIsSetting == false) { return; }
+            bInit = true;
+        }
 
-			var sRoot = Config.sFolderPath;
-			var liDate = Config.liDate;
+        public void ResearchFoldersAndFiles()
+        {
+            if (Config.bIsSetting == false) { return; }
 
-			m_liDateFolder.Clear();
-			m_mapSpecialFolder.Clear();
+            var sRoot = Config.sFolderPath;
+            var liDate = Config.liDate;
 
-			// 특수폴더부터 생성해야함
-			for (int i = (int)eFolder.Start; i <= (int)eFolder.Finish; ++i)
-			{
-				eFolder eFolder = (eFolder)i;
-				m_mapSpecialFolder.Add(eFolder, new Folder((eFolder)eFolder));
-			}
+            m_liDateFolder.Clear();
+            m_mapSpecialFolder.Clear();
 
-			int nDateOffset = 0;
-			foreach (var val in liDate)
-			{
-				if( val < (int)eDate.AfterDateGap )
-				{
-					int nTemp = val - (int)eDate.FixedDateGap;
-					nDateOffset = nTemp;
-				}
-				else
-				{
-					int nTemp = val - (int)eDate.AfterDateGap;
-					nDateOffset += nTemp;
-				}
+            // 특수폴더부터 생성해야함
+            for (int i = (int)eFolder.Start; i <= (int)eFolder.Finish; ++i)
+            {
+                eFolder eFolder = (eFolder)i;
+                m_mapSpecialFolder.Add(eFolder, new Folder((eFolder)eFolder));
+            }
 
-				m_liDateFolder.Add(new Folder(eFolder.Normal, val, nDateOffset));
-			}
+            int nDateOffset = 0;
+            foreach (var val in liDate)
+            {
+                if (val < (int)eDate.AfterDateGap)
+                {
+                    int nTemp = val - (int)eDate.FixedDateGap;
+                    nDateOffset = nTemp;
+                }
+                else
+                {
+                    int nTemp = val - (int)eDate.AfterDateGap;
+                    nDateOffset += nTemp;
+                }
 
-			// 오늘 복습할 파일들 취합 
-			_CollectTodayReviewFile();
+                m_liDateFolder.Add(new Folder(eFolder.Normal, val, nDateOffset));
+            }
 
-			return;
+            // 오늘 복습할 파일들 취합 
+            _CollectTodayReviewFile();
 
-			#region LOCAL_FUNCTION
+            return;
 
-			void _CollectTodayReviewFile()
-			{
-				m_liStudyList.Clear();
+            #region LOCAL_FUNCTION
 
-				foreach (var file in m_mapSpecialFolder[eFolder.Start].m_liChild)
-				{
-					m_liStudyList.AddLast(file);
-				}
+            void _CollectTodayReviewFile()
+            {
+                m_liStudyList.Clear();
 
-				foreach (var folder in m_liDateFolder)
-				{
-					foreach (var file in folder.m_liChild)
-					{
-						if (file.bIsTodayReviewFile == true)
-						{
-							m_liStudyList.AddLast(file);
-						}
-					}
-				}
-			}
+                foreach (var file in m_mapSpecialFolder[eFolder.Start].m_liChild)
+                {
+                    m_liStudyList.AddLast(file);
+                }
 
-			#endregion LOCAL_FUNCTION
-		}
+                foreach (var folder in m_liDateFolder)
+                {
+                    foreach (var file in folder.m_liChild)
+                    {
+                        if (file.bIsTodayReviewFile == true)
+                        {
+                            m_liStudyList.AddLast(file);
+                        }
+                    }
+                }
+            }
 
-		public void ChangeDate(List<int> m_refAllDay)
-		{
-			if (Config.SetDate(m_refAllDay) == true)
-			{
-				// todo : 날짜리스트 변경되면 폴더안에 파일들이 다 바뀜 할 일 개마늠
+            #endregion LOCAL_FUNCTION
+        }
 
-				ResearchFoldersAndFiles();
-			}
-		}
+        public void ChangeDate(List<int> m_refAllDay)
+        {
+            if (Config.SetDate(m_refAllDay) == true)
+            {
+                // todo : 날짜리스트 변경되면 폴더안에 파일들이 다 바뀜 할 일 개마늠
 
-		public bool MoveFiles(List<object> a_liMove)
-		{
-			if( a_liMove == null || a_liMove.Count == 0 ) { Define.LogError("arg error"); return false; }
+                ResearchFoldersAndFiles();
+            }
+        }
 
-			bool bResult = true;
+        public bool MoveFiles(List<object> a_liMove)
+        {
+            if (a_liMove == null || a_liMove.Count == 0) { Define.LogError("arg error"); return false; }
 
-			foreach( File f in a_liMove )
-			{
-				if( f == null ) { Define.LogError("logic error"); continue; }
+            bool bResult = true;
 
-				try
-				{
-					MoveFile(f);
-				}
-				catch
-				{
-					bResult = false;
-					continue;
-				}
+            foreach (File f in a_liMove)
+            {
+                if (f == null) { Define.LogError("logic error"); continue; }
 
-				m_liStudyList.Remove(f);
-			}
+                try
+                {
+                    MoveFile(f);
+                }
+                catch
+                {
+                    bResult = false;
+                    continue;
+                }
 
-			return bResult;
-		}
+                m_liStudyList.Remove(f);
+            }
 
-		void MoveFile(File a_cTargetFile) 
-		{
-			if( a_cTargetFile == null ) { Define.LogError("arg error"); return; }
+            return bResult;
+        }
 
-			Folder fDest = GetNextFolder(a_cTargetFile.m_refParent);
+        void MoveFile(File a_cTargetFile)
+        {
+            if (a_cTargetFile == null) { Define.LogError("arg error"); return; }
 
-			if( fDest == null ) { Define.LogError("logic error?"); return; }
+            Folder fDest = GetNextFolder(a_cTargetFile.m_refParent);
 
-			int nOffset = 0;
+            if (fDest == null) { Define.LogError("logic error?"); return; }
 
-			if ( fDest.IsTypedFolder(eFolder.Finish) == true )
-			{
-				nOffset = nMaxDateOffset;
-			}
-			else
-			{
-				nOffset = fDest.m_nDateOffset - a_cTargetFile.m_refParent.m_nDateOffset;
+            int nOffset = 0;
 
-				if (nOffset <= 0) { Define.LogError("logic error"); return; }
-			}
+            if (fDest.IsTypedFolder(eFolder.Finish) == true)
+            {
+                nOffset = nMaxDateOffset;
+            }
+            else
+            {
+                nOffset = fDest.m_nDateOffset - a_cTargetFile.m_refParent.m_nDateOffset;
 
-			// 옮기기 이전 파일명 ( 풀패스 )
-			string sBefore = a_cTargetFile.sName_withFullPath;
+                if (nOffset <= 0) { Define.LogError("logic error"); return; }
+            }
 
-			// 변경될 데이터 세팅
-			a_cTargetFile.SetReview(nOffset);
-			
-			// 자식 위치 변경
-			a_cTargetFile.m_refParent.m_liChild.Remove(a_cTargetFile);
-			a_cTargetFile.m_refParent = fDest;
-			fDest.m_liChild.AddLast(a_cTargetFile);
+            // 옮기기 이전 파일명 ( 풀패스 )
+            string sBefore = a_cTargetFile.sName_withFullPath;
 
-			// 옮기기 이후 파일명 ( 풀패스 )
-			string sAfter = a_cTargetFile.sName_withFullPath;
+            // 변경될 데이터 세팅
+            a_cTargetFile.SetReview(nOffset);
 
-			Define.Log("Before - " + sBefore);
-			Define.Log("After - " + sAfter);
+            // 자식 위치 변경
+            a_cTargetFile.m_refParent.m_liChild.Remove(a_cTargetFile);
+            a_cTargetFile.m_refParent = fDest;
+            fDest.m_liChild.AddLast(a_cTargetFile);
 
-			// 실제 파일 이동
-			try
-			{
-				System.IO.File.Move(sBefore, sAfter);
-			}
-			catch(Exception ex)
-			{
-				Define.LogError("File Move Error - " + ex.Message);
-				throw ex;				
-			}
+            // 옮기기 이후 파일명 ( 풀패스 )
+            string sAfter = a_cTargetFile.sName_withFullPath;
 
-			if( fDest.IsTypedFolder(eFolder.Finish) == true )
-			{
-				string s = string.Format(Properties.Resources.sCongraturation_FinishReviewFile, a_cTargetFile.sUIName);
-				MessageBox.Show(s);
-			}
-		}
+            Define.Log("Before - " + sBefore);
+            Define.Log("After - " + sAfter);
 
-		Folder GetNextFolder(Folder a_cTarget)
-		{
-			if( a_cTarget == null ) { Define.LogError("arg error"); return null; }
+            // 실제 파일 이동
+            try
+            {
+                System.IO.File.Move(sBefore, sAfter);
+            }
+            catch (Exception ex)
+            {
+                Define.LogError("File Move Error - " + ex.Message);
+                throw ex;
+            }
 
-			switch (a_cTarget.m_eFolder)
-			{
-				case eFolder.Normal:
+            if (fDest.IsTypedFolder(eFolder.Finish) == true)
+            {
+                string s = string.Format(Properties.Resources.sCongraturation_FinishReviewFile, a_cTargetFile.sUIName);
+                MessageBox.Show(s);
+            }
+        }
 
-					for( int i=0; i<m_liDateFolder.Count; ++i )
-					{
-						if( m_liDateFolder[i] == a_cTarget )
-						{
-							if( i == m_liDateFolder.Count-1 )
-							{
-								return m_mapSpecialFolder[eFolder.Finish];
-							}
-							else
-							{
-								return m_liDateFolder[i+1];
-							}
-						}
-					}
+        Folder GetNextFolder(Folder a_cTarget)
+        {
+            if (a_cTarget == null) { Define.LogError("arg error"); return null; }
 
-					break;
-				case eFolder.UnmatchDate:
+            switch (a_cTarget.m_eFolder)
+            {
+                case eFolder.Normal:
 
-					Folder returnFolder = null;
+                    for (int i = 0; i < m_liDateFolder.Count; ++i)
+                    {
+                        if (m_liDateFolder[i] == a_cTarget)
+                        {
+                            if (i == m_liDateFolder.Count - 1)
+                            {
+                                return m_mapSpecialFolder[eFolder.Finish];
+                            }
+                            else
+                            {
+                                return m_liDateFolder[i + 1];
+                            }
+                        }
+                    }
 
-					foreach(Folder f in m_liDateFolder)
-					{
-						if( f.m_nDateOffset > a_cTarget.m_nDateOffset )
-						{
-							returnFolder = f;
-						}						
-					}
+                    break;
+                case eFolder.UnmatchDate:
 
-					if( returnFolder == null )
-					{
-						returnFolder = m_mapSpecialFolder[eFolder.Finish];
-					}
+                    Folder returnFolder = null;
 
-					return returnFolder;
+                    foreach (Folder f in m_liDateFolder)
+                    {
+                        if (f.m_nDateOffset > a_cTarget.m_nDateOffset)
+                        {
+                            returnFolder = f;
+                        }
+                    }
 
-				case eFolder.Start:
+                    if (returnFolder == null)
+                    {
+                        returnFolder = m_mapSpecialFolder[eFolder.Finish];
+                    }
 
-					return m_liDateFolder[0];
-			}
+                    return returnFolder;
 
-			Define.LogError("logic error or arg error");
-			return null;
-		}
-	}
+                case eFolder.Start:
+
+                    return m_liDateFolder[0];
+            }
+
+            Define.LogError("logic error or arg error");
+            return null;
+        }
+    }
 }

@@ -5,12 +5,9 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using LitJson;
 
 // 바로가기를 위함
 using IWshRuntimeLibrary; // COM의 Windows Script Host Object Model 참조 필요, 참조 설정 Interop 형식 true -> false로 해야함
-using System.Windows.Forms;
-
 
 /* todo list
  * 문자열 전부 리소스로 빼야함
